@@ -108,7 +108,7 @@ $_ADDONLANG['Graphs']['Write'] = 'Scrittura';
 ## Backups
 $_ADDONLANG['Backups']['Title'] = 'Gestione Backup';
 $_ADDONLANG['Backups']['Description'] = 'Le date per le quali sono disponibili backup di questo VPS sono elencate di seguito. Puoi ripristinarli o eliminarli di conseguenza.';
-$_ADDONLANG['Backups']['Warning'] = '* Tieni presente che i nuovi backup sostituiranno quelli più vecchi.<br/>** I backup automatici sostituiranno anche i tuoi backup manuali a meno che i backup automatici non siano disabilitati.<br/>*** I backup automatici vengono eseguiti 2 volte a settimana e fanno parte del nostro piano di disaster recovery. Se disabiliti i backup automatici, disabiliti anche qualsiasi possibilità di recupero in caso di disastro.<br/>**** Il file system del backup potrebbe non essere completamente coerente se il VPS stava scrivendo sul filesystem al momento del backup. Per backup completamente coerenti, il server deve essere fermato durante la creazione del backup.';
+$_ADDONLANG['Backups']['Warning'] = 'Per ogni server, ci sono sette slot per i backup. Se tutti gli slot sono pieni, il backup più vecchio verrà eliminato.';
 $_ADDONLANG['Backups']['Date'] = 'Data';
 $_ADDONLANG['Backups']['Size'] = 'Dimensione';
 $_ADDONLANG['Backups']['Type'] = 'Tipo';

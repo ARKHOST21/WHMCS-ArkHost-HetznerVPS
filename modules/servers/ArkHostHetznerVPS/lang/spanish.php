@@ -108,7 +108,7 @@ $_ADDONLANG['Graphs']['Write'] = 'Escritura';
 ## Backups
 $_ADDONLANG['Backups']['Title'] = 'Gestión de Respaldos';
 $_ADDONLANG['Backups']['Description'] = 'Las fechas para las cuales hay respaldos disponibles de este VPS se listan a continuación. Puedes restaurarlos o eliminarlos según corresponda.';
-$_ADDONLANG['Backups']['Warning'] = '* Ten en cuenta que los nuevos respaldos reemplazarán a los anteriores.<br/>** Los respaldos automáticos también reemplazarán tus respaldos manuales a menos que los respaldos automáticos estén desactivados.<br/>*** Los respaldos automáticos se realizan 2 veces por semana y son parte de nuestro plan de recuperación ante desastres. Si desactivas los respaldos automáticos, también desactivas cualquier posibilidad de recuperación en caso de desastre.<br/>**** El sistema de archivos del respaldo podría no estar completamente consistente si el VPS estaba escribiendo al sistema de archivos en el momento del respaldo. Para respaldos completamente consistentes, el servidor debe estar detenido mientras se crea el respaldo.';
+$_ADDONLANG['Backups']['Warning'] = 'Para cada servidor, hay siete ranuras para Respaldos. Si todas las ranuras están llenas, el Respaldo más antiguo será eliminado.';
 $_ADDONLANG['Backups']['Date'] = 'Fecha';
 $_ADDONLANG['Backups']['Size'] = 'Tamaño';
 $_ADDONLANG['Backups']['Type'] = 'Tipo';

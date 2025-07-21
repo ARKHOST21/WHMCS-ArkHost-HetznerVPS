@@ -108,7 +108,7 @@ $_ADDONLANG['Graphs']['Write'] = 'Escrita';
 ## Backups
 $_ADDONLANG['Backups']['Title'] = 'Gestão de Cópias de Segurança';
 $_ADDONLANG['Backups']['Description'] = 'As datas para as quais estão disponíveis cópias de segurança deste VPS estão listadas abaixo. Pode restaurá-las ou eliminá-las em conformidade.';
-$_ADDONLANG['Backups']['Warning'] = '* Tenha em mente que as novas cópias de segurança substituirão as mais antigas.<br/>** As cópias de segurança automatizadas também substituirão as suas cópias de segurança manuais, a menos que as cópias de segurança automatizadas estejam desactivadas.<br/>*** As cópias de segurança automatizadas são feitas 2 vezes por semana e fazem parte do nosso plano de recuperação de desastres. Se desactivar as cópias de segurança automatizadas, também desactiva qualquer hipótese de recuperação em caso de desastre.<br/>**** O sistema de ficheiros da cópia de segurança pode não estar completamente consistente se o VPS estivesse a escrever no sistema de ficheiros no momento da cópia de segurança. Para cópias de segurança completamente consistentes, o servidor deve ser parado durante a criação da cópia de segurança.';
+$_ADDONLANG['Backups']['Warning'] = 'Para cada servidor, existem sete slots para Cópias de Segurança. Se todos os slots estiverem cheios, a Cópia de Segurança mais antiga será eliminada.';
 $_ADDONLANG['Backups']['Date'] = 'Data';
 $_ADDONLANG['Backups']['Size'] = 'Tamanho';
 $_ADDONLANG['Backups']['Type'] = 'Tipo';

@@ -108,7 +108,7 @@ $_ADDONLANG['Graphs']['Write'] = 'Écriture';
 ## Backups
 $_ADDONLANG['Backups']['Title'] = 'Gestion des Sauvegardes';
 $_ADDONLANG['Backups']['Description'] = 'Les dates pour lesquelles des sauvegardes de ce VPS sont disponibles sont listées ci-dessous. Vous pouvez les restaurer ou les supprimer en conséquence.';
-$_ADDONLANG['Backups']['Warning'] = '* Veuillez garder à l\'esprit que les nouvelles sauvegardes remplaceront les anciennes.<br/>** Les sauvegardes automatiques remplaceront également vos sauvegardes manuelles à moins que les sauvegardes automatiques ne soient désactivées.<br/>*** Les sauvegardes automatiques sont effectuées 2 fois par semaine et font partie de notre plan de récupération après sinistre. Si vous désactivez les sauvegardes automatiques, vous désactivez également toute chance de récupération en cas de sinistre.<br/>**** Le système de fichiers de la sauvegarde pourrait ne pas être entièrement cohérent si le VPS écrivait sur le système de fichiers au moment de la sauvegarde. Pour des sauvegardes entièrement cohérentes, le serveur doit être arrêté pendant la création de la sauvegarde.';
+$_ADDONLANG['Backups']['Warning'] = 'Pour chaque serveur, il y a sept emplacements pour les sauvegardes. Si tous les emplacements sont complets, la sauvegarde la plus ancienne sera supprimée.';
 $_ADDONLANG['Backups']['Date'] = 'Date';
 $_ADDONLANG['Backups']['Size'] = 'Taille';
 $_ADDONLANG['Backups']['Type'] = 'Type';

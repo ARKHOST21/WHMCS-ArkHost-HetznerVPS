@@ -108,7 +108,7 @@ $_ADDONLANG['Graphs']['Write'] = 'Schrijven';
 ## Backups
 $_ADDONLANG['Backups']['Title'] = 'Back-up Beheer';
 $_ADDONLANG['Backups']['Description'] = 'De datums waarvoor back-ups van deze VPS beschikbaar zijn, staan hieronder vermeld. U kunt deze dienovereenkomstig herstellen of verwijderen.';
-$_ADDONLANG['Backups']['Warning'] = '* Houd er rekening mee dat nieuwe back-ups de oudere vervangen.<br/>** De geautomatiseerde back-ups vervangen ook uw handmatige back-ups, tenzij de geautomatiseerde back-ups zijn uitgeschakeld.<br/>*** De geautomatiseerde back-ups worden 2 keer per week gemaakt en zijn onderdeel van ons disaster recovery plan. Als u de geautomatiseerde back-ups uitschakelt, schakelt u ook elke kans op herstel uit in geval van een ramp.<br/>**** Het bestandssysteem van de back-up is mogelijk niet volledig consistent als de VPS aan het schrijven was naar het bestandssysteem op het moment van de back-up. Voor volledig consistente back-ups moet de server worden gestopt tijdens het maken van de back-up.';
+$_ADDONLANG['Backups']['Warning'] = 'Voor elke server zijn er zeven slots voor back-ups. Als alle slots vol zijn, wordt de oudste back-up verwijderd.';
 $_ADDONLANG['Backups']['Date'] = 'Datum';
 $_ADDONLANG['Backups']['Size'] = 'Grootte';
 $_ADDONLANG['Backups']['Type'] = 'Type';
