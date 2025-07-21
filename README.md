@@ -23,7 +23,7 @@ WHMCS server module for Hetzner Cloud VPS management.
 **Interface**
 
 - Bootstrap 4 responsive design
-- English and Portuguese languages
+- Multiple language translations included
 - Real-time status updates
 - VNC console access
 
