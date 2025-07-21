@@ -38,11 +38,11 @@ WHMCS server module for Hetzner Cloud VPS management.
 ## Installation
 
 1. Upload files to `/path/to/whmcs/modules/servers/ArkHostHetznerVPS/`
-2. Create server group:
+2. Create server and add it to a server group:
     - Setup → Products/Services → Servers → Create New Group
     - Name: `Hetzner Cloud`
     - Type: `ArkHostHetznerVPS`
-    - Hostname: `api.hetzner.cloud`
+    - Hostname: `localhost`
     - Username: Hetzner Project ID (optional)
     - Password: Hetzner Cloud API Token
 3. Create products:
