@@ -189,6 +189,23 @@ $_ADDONLANG['Settings']['Rescue']['EnableRebootTitle'] = 'Aktivieren & Neustarte
 $_ADDONLANG['Settings']['Rescue']['EnableRebootDescription'] = 'Rettungsmodus aktivieren und den Server sofort neu starten, um ihn zu aktivieren.';
 $_ADDONLANG['Settings']['Rescue']['PasswordPrompt'] = 'Ihr neues Root-Passwort lautet:';
 
+### Floating IP
+$_ADDONLANG['Settings']['FloatingIP']['Title'] = 'Floating IP';
+$_ADDONLANG['Settings']['FloatingIP']['Description'] = 'Floating IPs verwalten, die diesem Server zugewiesen sind. Floating IPs können zwischen Servern verschoben werden.';
+$_ADDONLANG['Settings']['FloatingIP']['Status'] = 'Status';
+$_ADDONLANG['Settings']['FloatingIP']['IP'] = 'IP-Adresse';
+$_ADDONLANG['Settings']['FloatingIP']['Type'] = 'Typ';
+$_ADDONLANG['Settings']['FloatingIP']['None'] = 'Keine Floating IP zugewiesen';
+$_ADDONLANG['Settings']['FloatingIP']['NotAvailable'] = 'Floating IP für diesen Dienst nicht verfügbar';
+$_ADDONLANG['Settings']['FloatingIP']['Assigned'] = 'Zugewiesen';
+$_ADDONLANG['Settings']['FloatingIP']['Unassigned'] = 'Nicht zugewiesen';
+$_ADDONLANG['Settings']['FloatingIP']['Assign'] = 'Dem Server zuweisen';
+$_ADDONLANG['Settings']['FloatingIP']['Unassign'] = 'Vom Server entfernen';
+$_ADDONLANG['Settings']['FloatingIP']['ReverseDNS'] = 'Reverse DNS';
+$_ADDONLANG['Settings']['FloatingIP']['ReverseDNSDescription'] = 'Reverse DNS (PTR-Eintrag) für diese Floating IP festlegen';
+$_ADDONLANG['Settings']['FloatingIP']['SetReverseDNS'] = 'Reverse DNS festlegen';
+$_ADDONLANG['Settings']['FloatingIP']['ReverseDNSPlaceholder'] = 'beispiel.de';
+
 # Additional strings for UI elements
 $_ADDONLANG['General']['NoBackupsFound'] = 'Keine Backups gefunden';
 $_ADDONLANG['General']['NoFirewallRules'] = 'Keine Firewall-Regeln konfiguriert';

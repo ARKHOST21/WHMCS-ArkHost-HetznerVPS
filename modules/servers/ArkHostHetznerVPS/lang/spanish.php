@@ -189,6 +189,23 @@ $_ADDONLANG['Settings']['Rescue']['EnableRebootTitle'] = 'Activar y Reiniciar';
 $_ADDONLANG['Settings']['Rescue']['EnableRebootDescription'] = 'Activar modo de rescate e inmediatamente reiniciar el servidor para activarlo.';
 $_ADDONLANG['Settings']['Rescue']['PasswordPrompt'] = 'Tu nueva contraseña root es:';
 
+### Floating IP
+$_ADDONLANG['Settings']['FloatingIP']['Title'] = 'IP Flotante';
+$_ADDONLANG['Settings']['FloatingIP']['Description'] = 'Gestionar las IPs flotantes asignadas a este servidor. Las IPs flotantes se pueden mover entre servidores.';
+$_ADDONLANG['Settings']['FloatingIP']['Status'] = 'Estado';
+$_ADDONLANG['Settings']['FloatingIP']['IP'] = 'Dirección IP';
+$_ADDONLANG['Settings']['FloatingIP']['Type'] = 'Tipo';
+$_ADDONLANG['Settings']['FloatingIP']['None'] = 'No hay IP flotante asignada';
+$_ADDONLANG['Settings']['FloatingIP']['NotAvailable'] = 'IP flotante no disponible para este servicio';
+$_ADDONLANG['Settings']['FloatingIP']['Assigned'] = 'Asignada';
+$_ADDONLANG['Settings']['FloatingIP']['Unassigned'] = 'No asignada';
+$_ADDONLANG['Settings']['FloatingIP']['Assign'] = 'Asignar al Servidor';
+$_ADDONLANG['Settings']['FloatingIP']['Unassign'] = 'Desasignar del Servidor';
+$_ADDONLANG['Settings']['FloatingIP']['ReverseDNS'] = 'DNS Inverso';
+$_ADDONLANG['Settings']['FloatingIP']['ReverseDNSDescription'] = 'Establecer DNS inverso (registro PTR) para esta IP flotante';
+$_ADDONLANG['Settings']['FloatingIP']['SetReverseDNS'] = 'Establecer DNS Inverso';
+$_ADDONLANG['Settings']['FloatingIP']['ReverseDNSPlaceholder'] = 'ejemplo.com';
+
 # Additional strings for UI elements
 $_ADDONLANG['General']['NoBackupsFound'] = 'No se encontraron respaldos';
 $_ADDONLANG['General']['NoFirewallRules'] = 'No hay reglas de firewall configuradas';

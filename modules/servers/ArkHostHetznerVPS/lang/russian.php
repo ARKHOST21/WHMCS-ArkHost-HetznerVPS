@@ -189,6 +189,23 @@ $_ADDONLANG['Settings']['Rescue']['EnableRebootTitle'] = 'Включить и п
 $_ADDONLANG['Settings']['Rescue']['EnableRebootDescription'] = 'Включить режим восстановления и немедленно перезагрузить сервер для его активации.';
 $_ADDONLANG['Settings']['Rescue']['PasswordPrompt'] = 'Ваш новый root пароль:';
 
+### Floating IP
+$_ADDONLANG['Settings']['FloatingIP']['Title'] = 'Плавающий IP';
+$_ADDONLANG['Settings']['FloatingIP']['Description'] = 'Управление плавающими IP, назначенными этому серверу. Плавающие IP могут перемещаться между серверами.';
+$_ADDONLANG['Settings']['FloatingIP']['Status'] = 'Статус';
+$_ADDONLANG['Settings']['FloatingIP']['IP'] = 'IP-адрес';
+$_ADDONLANG['Settings']['FloatingIP']['Type'] = 'Тип';
+$_ADDONLANG['Settings']['FloatingIP']['None'] = 'Плавающий IP не назначен';
+$_ADDONLANG['Settings']['FloatingIP']['NotAvailable'] = 'Плавающий IP недоступен для этой услуги';
+$_ADDONLANG['Settings']['FloatingIP']['Assigned'] = 'Назначен';
+$_ADDONLANG['Settings']['FloatingIP']['Unassigned'] = 'Не назначен';
+$_ADDONLANG['Settings']['FloatingIP']['Assign'] = 'Назначить серверу';
+$_ADDONLANG['Settings']['FloatingIP']['Unassign'] = 'Удалить с сервера';
+$_ADDONLANG['Settings']['FloatingIP']['ReverseDNS'] = 'Обратный DNS';
+$_ADDONLANG['Settings']['FloatingIP']['ReverseDNSDescription'] = 'Установить обратный DNS (PTR запись) для этого плавающего IP';
+$_ADDONLANG['Settings']['FloatingIP']['SetReverseDNS'] = 'Установить обратный DNS';
+$_ADDONLANG['Settings']['FloatingIP']['ReverseDNSPlaceholder'] = 'example.ru';
+
 # Additional strings for UI elements
 $_ADDONLANG['General']['NoBackupsFound'] = 'Резервные копии не найдены';
 $_ADDONLANG['General']['NoFirewallRules'] = 'Правила файервола не настроены';

@@ -189,6 +189,23 @@ $_ADDONLANG['Settings']['Rescue']['EnableRebootTitle'] = 'Inschakelen & Herstart
 $_ADDONLANG['Settings']['Rescue']['EnableRebootDescription'] = 'Reddingsmodus inschakelen en de server direct herstarten om het te activeren.';
 $_ADDONLANG['Settings']['Rescue']['PasswordPrompt'] = 'Uw nieuwe root wachtwoord is:';
 
+### Floating IP
+$_ADDONLANG['Settings']['FloatingIP']['Title'] = 'Zwevend IP';
+$_ADDONLANG['Settings']['FloatingIP']['Description'] = 'Beheer zwevende IP\'s toegewezen aan deze server. Zwevende IP\'s kunnen tussen servers worden verplaatst.';
+$_ADDONLANG['Settings']['FloatingIP']['Status'] = 'Status';
+$_ADDONLANG['Settings']['FloatingIP']['IP'] = 'IP-adres';
+$_ADDONLANG['Settings']['FloatingIP']['Type'] = 'Type';
+$_ADDONLANG['Settings']['FloatingIP']['None'] = 'Geen zwevend IP toegewezen';
+$_ADDONLANG['Settings']['FloatingIP']['NotAvailable'] = 'Zwevend IP niet beschikbaar voor deze service';
+$_ADDONLANG['Settings']['FloatingIP']['Assigned'] = 'Toegewezen';
+$_ADDONLANG['Settings']['FloatingIP']['Unassigned'] = 'Niet toegewezen';
+$_ADDONLANG['Settings']['FloatingIP']['Assign'] = 'Toewijzen aan Server';
+$_ADDONLANG['Settings']['FloatingIP']['Unassign'] = 'Verwijderen van Server';
+$_ADDONLANG['Settings']['FloatingIP']['ReverseDNS'] = 'Reverse DNS';
+$_ADDONLANG['Settings']['FloatingIP']['ReverseDNSDescription'] = 'Stel reverse DNS (PTR-record) in voor dit zwevende IP';
+$_ADDONLANG['Settings']['FloatingIP']['SetReverseDNS'] = 'Reverse DNS instellen';
+$_ADDONLANG['Settings']['FloatingIP']['ReverseDNSPlaceholder'] = 'voorbeeld.nl';
+
 # Additional strings for UI elements
 $_ADDONLANG['General']['NoBackupsFound'] = 'Geen back-ups gevonden';
 $_ADDONLANG['General']['NoFirewallRules'] = 'Geen firewall regels geconfigureerd';
