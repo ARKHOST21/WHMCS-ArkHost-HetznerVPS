@@ -179,7 +179,7 @@ Free and open source. Commercial support available.
 
 ## Other ArkHost Modules
 
-Check out our premium WHMCS modules at [arkhost.com/whmcs-modules.php](https://arkhost.com/whmcs-modules.php "https://arkhost.com/whmcs-modules.php")
+Check out our other WHMCS modules at [arkhost.com/whmcs-modules.php](https://arkhost.com/whmcs-modules.php "https://arkhost.com/whmcs-modules.php")
 
 © 2025 ArkHost
 
