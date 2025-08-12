@@ -167,9 +167,27 @@ We're exploring secure implementations using cloud-init or per-server user data 
 
 Enable module debugging: Configuration → System Logs → Module Log
 
-## Support
+## Support Policy
 
-[support@arkhost.com](mailto:support@arkhost.com "mailto:support@arkhost.com")
+This is free, open-source software provided AS-IS.
+
+**NO SUPPORT** is provided except through paid channels:
+- Premium Support: €100/hour (2 hour minimum)
+- Email: support@arkhost.com (paid support only)
+
+### Before Requesting Support
+- English only
+- Must provide complete error logs
+- Must provide steps to reproduce
+- Vague reports like "doesn't work" will be ignored
+
+### GitHub Issues
+- For documented bugs only
+- Requires complete technical information
+- Issues lacking proper information will be closed immediately
+- This is not a support forum
+
+If you need help with basic installation or configuration, purchase premium support.
 
 ## License
 
