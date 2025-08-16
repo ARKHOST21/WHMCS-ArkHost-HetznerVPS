@@ -86,36 +86,70 @@ Create in Setup → Products/Services → Configurable Options:
 - Option Name: `datacenter`
 - Option Type: `Dropdown`
 - Options:
-    - `fsn1|Falkenstein, Germany`
-    - `nbg1|Nuremberg, Germany`
-    - `hel1|Helsinki, Finland`
-    - `ash|Ashburn, USA`
-    - `hil|Hillsboro, USA`
+    - `fsn1-dc14|Falkenstein, Germany`
+    - `nbg1-dc3|Nuremberg, Germany`
+    - `hel1-dc2|Helsinki, Finland`
+    - `ash-dc1|Ashburn, USA`
+    - `hil-dc1|Hillsboro, USA`
+    - `sin-dc1|Singapore, Singapore`
 
 **3\. Server Type**
 
 - Option Name: `planid`
 - Option Type: `Dropdown`
 - Options:
-    - `cx11|CX11 (1 vCPU, 2GB RAM, 20GB SSD)`
-    - `cx21|CX21 (2 vCPU, 4GB RAM, 40GB SSD)`
-    - `cx31|CX31 (2 vCPU, 8GB RAM, 80GB SSD)`
-    - `cx41|CX41 (4 vCPU, 16GB RAM, 160GB SSD)`
-    - `cx51|CX51 (8 vCPU, 32GB RAM, 240GB SSD)`
+- `cpx11|CPX 11 - 2 vCPU, 2 GB RAM, 40 GB Disk, shared`
+- `cpx21|CPX 21 - 3 vCPU, 4 GB RAM, 80 GB Disk, shared`
+- `cpx31|CPX 31 - 4 vCPU, 8 GB RAM, 160 GB Disk, shared`
+- `cpx41|CPX 41 - 8 vCPU, 16 GB RAM, 240 GB Disk, shared`
+- `cpx51|CPX 51 - 16 vCPU, 32 GB RAM, 360 GB Disk, shared`
+- `cax11|CAX11 - 2 vCPU, 4 GB RAM, 40 GB Disk, shared`
+- `cax21|CAX21 - 4 vCPU, 8 GB RAM, 80 GB Disk, shared`
+- `cax31|CAX31 - 8 vCPU, 16 GB RAM, 160 GB Disk, shared`
+- `cax41|CAX41 - 16 vCPU, 32 GB RAM, 320 GB Disk, shared`
+- `ccx13|CCX13 Dedicated CPU - 2 vCPU, 8 GB RAM, 80 GB Disk, dedicated`
+- `ccx23|CCX23 Dedicated CPU - 4 vCPU, 16 GB RAM, 160 GB Disk, dedicated`
+- `ccx33|CCX33 Dedicated CPU - 8 vCPU, 32 GB RAM, 240 GB Disk, dedicated`
+- `ccx43|CCX43 Dedicated CPU - 16 vCPU, 64 GB RAM, 360 GB Disk, dedicated`
+- `ccx53|CCX53 Dedicated CPU - 32 vCPU, 128 GB RAM, 600 GB Disk, dedicated`
+- `ccx63|CCX63 Dedicated CPU - 48 vCPU, 192 GB RAM, 960 GB Disk, dedicated`
+- `cx22|CX22 - 2 vCPU, 4 GB RAM, 40 GB Disk, shared`
+- `cx32|CX32 - 4 vCPU, 8 GB RAM, 80 GB Disk, shared`
+- `cx42|CX42 - 8 vCPU, 16 GB RAM, 160 GB Disk, shared`
+- `cx52|CX52 - 16 vCPU, 32 GB RAM, 320 GB Disk, shared`
+
 
 **4\. Operating System**
 
 - Option Name: `osid`
 - Option Type: `Dropdown`
 - Options:
-    - `ubuntu-20.04|Ubuntu 20.04 LTS`
-    - `ubuntu-22.04|Ubuntu 22.04 LTS`
-    - `debian-11|Debian 11`
-    - `debian-12|Debian 12`
-    - `centos-stream-8|CentOS Stream 8`
-    - `centos-stream-9|CentOS Stream 9`
-    - `rocky-8|Rocky Linux 8`
-    - `rocky-9|Rocky Linux 9`
+- `lamp|lamp`
+-`wordpress|wordpress`
+-`jitsi|jitsi`
+-`nextcloud|nextcloud`
+- `docker-ce|docker-ce`
+- `gitlab|gitlab`
+- `debian-11|Debian 11`
+- `rocky-8|Rocky Linux 8`
+- `centos-stream-9|CentOS Stream 9`
+- `ubuntu-22.04|Ubuntu 22.04`
+- `prometheus-grafana|prometheus-grafana`
+- `rocky-9|Rocky Linux 9`
+- `wireguard|wireguard`
+- `owncast|owncast`
+- `photoprism|photoprism`
+- `rustdesk|rustdesk`
+- `centos-stream-9|CentOS Stream 9`
+- `debian-11|Debian 11`
+- `rocky-8|Rocky Linux 8`
+- `rocky-9|Rocky Linux 9`
+- `ubuntu-22.04|Ubuntu 22.04`
+- `alma-8|AlmaLinux 8`
+- `alma-9|AlmaLinux 9`
+- `jitsi|jitsi`
+- `owncast|owncast`
+
 
   
 
