@@ -86,11 +86,12 @@ Create in Setup → Products/Services → Configurable Options:
 - Option Name: `datacenter`
 - Option Type: `Dropdown`
 - Options:
-    - `fsn1|Falkenstein, Germany`
-    - `nbg1|Nuremberg, Germany`
-    - `hel1|Helsinki, Finland`
-    - `ash|Ashburn, USA`
-    - `hil|Hillsboro, USA`
+    - `fsn1-dc14|Falkenstein, Germany`
+    - `nbg1-dc3|Nuremberg, Germany`
+    - `hel1-dc2|Helsinki, Finland`
+    - `ash-dc1|Ashburn, USA`
+    - `hil-dc1|Hillsboro, USA`
+    - `sin-dc1|Singapore, Singapore`
 
 **3\. Server Type**
 
