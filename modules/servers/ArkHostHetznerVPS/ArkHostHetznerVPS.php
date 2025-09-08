@@ -3,7 +3,7 @@
  *	WHMCS Server Module - Hetzner VPS
  *
  *	@package     WHMCS
- *	@version     1.0
+ *	@version     1.1
  *	@copyright   Copyright (c) ArkHost 2025
  *	@author      ArkHost <support@arkhost.com>
  *  @link        https://arkhost.com
