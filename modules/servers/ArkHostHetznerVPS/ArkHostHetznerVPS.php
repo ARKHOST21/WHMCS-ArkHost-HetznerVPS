@@ -387,11 +387,14 @@ function ArkHostHetznerVPS_API(array $params) {
         case 'Apply Firewall':
             $url .= 'firewalls/' . $params['firewall_id'] . '/actions/apply_to_resources';
             $method = 'POST';
+            $serverId = ArkHostHetznerVPS_GetVPSID($params);
             $data = array(
                 'apply_to' => array(
                     array(
                         'type' => 'server',
-                        'server' => ArkHostHetznerVPS_GetVPSID($params)
+                        'server' => array(
+                            'id' => intval($serverId)
+                        )
                     )
                 )
             );
@@ -446,17 +449,47 @@ function ArkHostHetznerVPS_API(array $params) {
                 // No firewall attached, create one
                 $createParams = $params;
                 $createParams['action'] = 'Create Firewall';
-                $createParams['name'] = 'firewall-server-' . $serverId;
+                // Simple unique name
+                $createParams['name'] = 'server-' . $serverId . '-' . time();
                 $createParams['rules'] = array();
                 
-                $createResult = ArkHostHetznerVPS_API($createParams);
+                try {
+                    $createResult = ArkHostHetznerVPS_API($createParams);
+                } catch (Exception $e) {
+                    // If name is still not unique, try with random suffix
+                    if (strpos($e->getMessage(), 'uniqueness_error') !== false || strpos($e->getMessage(), 'name is already used') !== false) {
+                        $createParams['name'] = 'firewall-server-' . $serverId . '-' . time() . '-' . rand(1000, 9999);
+                        $createResult = ArkHostHetznerVPS_API($createParams);
+                    } else {
+                        throw $e;
+                    }
+                }
                 $firewallId = $createResult['firewall']['id'];
                 
                 // Attach firewall to server
                 $attachParams = $params;
                 $attachParams['action'] = 'Apply Firewall';
                 $attachParams['firewall_id'] = $firewallId;
-                ArkHostHetznerVPS_API($attachParams);
+                $attachResult = ArkHostHetznerVPS_API($attachParams);
+                
+                // Wait a moment for the firewall to be applied
+                sleep(2);
+                
+                // Verify the firewall was attached
+                $verifyParams = $params;
+                $verifyParams['action'] = 'Server Info';
+                $verifyInfo = ArkHostHetznerVPS_API($verifyParams);
+                
+                // Check if firewall is actually attached
+                if (!isset($verifyInfo['server']['public_net']['firewalls']) || 
+                    empty($verifyInfo['server']['public_net']['firewalls']) || 
+                    $verifyInfo['server']['public_net']['firewalls'][0]['id'] != $firewallId) {
+                    // Try to attach again if it failed
+                    $attachParams = $params;
+                    $attachParams['action'] = 'Apply Firewall';
+                    $attachParams['firewall_id'] = $firewallId;
+                    ArkHostHetznerVPS_API($attachParams);
+                }
                 
                 $existingRules = array();
             }
@@ -468,8 +501,8 @@ function ArkHostHetznerVPS_API(array $params) {
             );
             
             // Handle source IPs - ensure CIDR notation
-            if (!empty($params['source']) && $params['source'] !== '0.0.0.0/0') {
-                $sourceIp = $params['source'];
+            if (!empty($params['source']) && $params['source'] !== '0.0.0.0/0' && $params['source'] !== 'Any') {
+                $sourceIp = trim($params['source']);
                 // If no CIDR notation, add /32 for IPv4 or /128 for IPv6
                 if (strpos($sourceIp, '/') === false) {
                     if (filter_var($sourceIp, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6)) {
@@ -480,12 +513,13 @@ function ArkHostHetznerVPS_API(array $params) {
                 }
                 $newRule['source_ips'] = array($sourceIp);
             } else {
+                // Empty array means all sources are allowed in Hetzner API
                 $newRule['source_ips'] = array();
             }
             
-            // Handle port
+            // Handle port - Hetzner expects port as a string
             if (!empty($params['port']) && $params['protocol'] !== 'icmp') {
-                $newRule['port'] = $params['port'];
+                $newRule['port'] = strval($params['port']);
             }
             
             // Add description if provided
@@ -493,10 +527,10 @@ function ArkHostHetznerVPS_API(array $params) {
                 $newRule['description'] = $params['note'];
             }
             
-            // Only add ACCEPT rules (Hetzner default is DROP for non-matched)
-            if ($params['firewallAction'] === 'ACCEPT') {
-                $existingRules[] = $newRule;
-            }
+            // Add the new rule to existing rules
+            // Note: Hetzner only supports ACCEPT rules for inbound traffic
+            // The default policy is DROP for non-matched traffic
+            $existingRules[] = $newRule;
             
             // Update firewall with new rules
             $updateParams = $params;
@@ -1767,52 +1801,13 @@ function ArkHostHetznerVPS_ClientAreaAPI(array $params) {
                     }
                     
                     if (empty($rules)) {
-                        $results['message'] = 'This server has ' . count($result['server']['firewall_ids']) . ' firewall(s) attached but no inbound rules configured.';
+                        $results['message'] = 'This server has ' . count($firewallIds) . ' firewall(s) attached but no inbound rules configured.';
                     }
                 } else {
-                    // No firewalls attached - show default rules indicating all traffic is allowed
-                    $rules[] = array(
-                        'id' => '1',
-                        'action' => 'ACCEPT',
-                        'protocol' => 'TCP',
-                        'port' => '22',
-                        'source' => '0.0.0.0/0',
-                        'note' => 'SSH (Default Open)'
-                    );
-                    $rules[] = array(
-                        'id' => '2',
-                        'action' => 'ACCEPT',
-                        'protocol' => 'TCP',
-                        'port' => '80',
-                        'source' => '0.0.0.0/0',
-                        'note' => 'HTTP (Default Open)'
-                    );
-                    $rules[] = array(
-                        'id' => '3',
-                        'action' => 'ACCEPT',
-                        'protocol' => 'TCP',
-                        'port' => '443',
-                        'source' => '0.0.0.0/0',
-                        'note' => 'HTTPS (Default Open)'
-                    );
-                    $rules[] = array(
-                        'id' => '4',
-                        'action' => 'ACCEPT',
-                        'protocol' => 'TCP/UDP',
-                        'port' => 'All',
-                        'source' => '0.0.0.0/0',
-                        'note' => 'All other ports (Default Open)'
-                    );
-                    $rules[] = array(
-                        'id' => '5',
-                        'action' => 'ACCEPT',
-                        'protocol' => 'ICMP',
-                        'port' => 'N/A',
-                        'source' => '0.0.0.0/0',
-                        'note' => 'Ping/ICMP (Default Open)'
-                    );
-                    
-                    $results['message'] = 'No firewall attached. All traffic is allowed by default.';
+                    // No firewalls attached - don't show any rules
+                    $results['message'] = 'No firewall attached to this server. All traffic is allowed by default. Create a firewall rule to enable protection.';
+                    // Return empty rules array
+                    $rules = array();
                 }
                 
                 // Return rules with numeric keys for JavaScript compatibility
