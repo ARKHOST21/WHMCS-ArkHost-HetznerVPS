@@ -677,6 +677,13 @@
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-md-2">
+                                    <label class="small text-muted">{$ADDONLANG.Settings.Firewall.Direction}</label>
+                                    <select class="form-control" id="firewallDirection">
+                                        <option value="in" selected>{$ADDONLANG.Firewall.Incoming}</option>
+                                        <option value="out">{$ADDONLANG.Firewall.Outgoing}</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-2">
                                     <label class="small text-muted">{$ADDONLANG.Settings.Firewall.Action}</label>
                                     <select class="form-control" id="firewallAction">
                                         <option value="ACCEPT" class="text-success">✓ {$ADDONLANG.Settings.Firewall.Accept}</option>
@@ -692,17 +699,13 @@
                                         <option value="ANY">{$ADDONLANG.Firewall.Any}</option>
                                     </select>
                                 </div>
-                                <div class="col-md-2">
+                                <div class="col-md-3">
                                     <label class="small text-muted">{$ADDONLANG.Settings.Firewall.Port}</label>
-                                    <input class="form-control" id="firewallPort" type="number" min="1" max="65535" placeholder="{$ADDONLANG.Firewall.PortPlaceholder}">
+                                    <input class="form-control" id="firewallPort" type="text" placeholder="{$ADDONLANG.Firewall.PortPlaceholder}">
                                 </div>
                                 <div class="col-md-3">
-                                    <label class="small text-muted">{$ADDONLANG.Settings.Firewall.Source}</label>
+                                    <label class="small text-muted">IP/CIDR</label>
                                     <input class="form-control" id="firewallSource" type="text" placeholder="{$ADDONLANG.Firewall.SourcePlaceholder}">
-                                </div>
-                                <div class="col-md-3">
-                                    <label class="small text-muted">{$ADDONLANG.Settings.Firewall.Note}</label>
-                                    <input class="form-control" id="firewallNote" type="text" maxlength="64" placeholder="{$ADDONLANG.Firewall.DescriptionPlaceholder}">
                                 </div>
                             </div>
                             <div class="text-right mt-3">
@@ -723,12 +726,12 @@
                                 <table id="firewallTable" class="table table-hover mb-0">
                                     <thead class="thead-light">
                                         <tr>
-                                            <th width="100">Action</th>
-                                            <th width="100">Protocol</th>
-                                            <th width="100">Port</th>
-                                            <th>Source</th>
-                                            <th>Description</th>
-                                            <th width="80" class="text-center">Remove</th>
+                                            <th width="80">{$ADDONLANG.Firewall.Direction}</th>
+                                            <th width="100">{$ADDONLANG.Firewall.Action}</th>
+                                            <th width="100">{$ADDONLANG.Firewall.Protocol}</th>
+                                            <th width="100">{$ADDONLANG.Firewall.Port}</th>
+                                            <th>{$ADDONLANG.Firewall.IPCIDR}</th>
+                                            <th width="80" class="text-center">{$ADDONLANG.Firewall.Remove}</th>
                                         </tr>
                                     </thead>
                                     <tbody>

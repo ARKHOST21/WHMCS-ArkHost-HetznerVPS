@@ -149,20 +149,11 @@ $_ADDONLANG['Settings']['Reinstall']['Submit'] = 'Herinstalleren';
 
 ### Firewall
 $_ADDONLANG['Settings']['Firewall']['Title'] = 'Firewall';
-$_ADDONLANG['Settings']['Firewall']['Description'] = 'De regels worden van boven naar beneden geëvalueerd. Standaard is alles toegestaan. De firewall is alleen beschikbaar op de publieke interface. Alleen het inkomende verkeer wordt gefilterd door de firewall.';
 $_ADDONLANG['Settings']['Firewall']['Action'] = 'Actie';
 $_ADDONLANG['Settings']['Firewall']['Port'] = 'Poort';
 $_ADDONLANG['Settings']['Firewall']['Protocol'] = 'Protocol';
-$_ADDONLANG['Settings']['Firewall']['Source'] = 'Bron';
-$_ADDONLANG['Settings']['Firewall']['Note'] = 'Opmerking';
-$_ADDONLANG['Settings']['Firewall']['Actions'] = 'Acties';
 $_ADDONLANG['Settings']['Firewall']['Accept'] = 'Accepteren';
 $_ADDONLANG['Settings']['Firewall']['Drop'] = 'Weggooien';
-$_ADDONLANG['Settings']['Firewall']['PortNumber'] = 'Poortnummer';
-$_ADDONLANG['Settings']['Firewall']['SourceLabel'] = 'Bijv.: x.x.x.x/xx (optioneel)';
-$_ADDONLANG['Settings']['Firewall']['Notes'] = 'Notities (optioneel)';
-$_ADDONLANG['Settings']['Firewall']['Warning'] = 'De regels moeten worden toegepast om effect te hebben.';
-$_ADDONLANG['Settings']['Firewall']['Submit'] = 'Firewall toepassen';
 
 ### Rescue Mode
 $_ADDONLANG['Settings']['Rescue']['Title'] = 'Reddingsmodus';
@@ -222,11 +213,16 @@ $_ADDONLANG['General']['Colon'] = ': ';
 ## Firewall specific
 $_ADDONLANG['Firewall']['CurrentRules'] = 'Huidige Firewall Regels';
 $_ADDONLANG['Firewall']['ResourcesAttached'] = 'Firewall resources zijn gekoppeld aan servers. Als er geen firewall is gekoppeld, wordt er automatisch een aangemaakt wanneer u uw eerste regel toevoegt.';
+$_ADDONLANG['Firewall']['Direction'] = 'Richting';
+$_ADDONLANG['Firewall']['Action'] = 'Actie';
+$_ADDONLANG['Firewall']['Protocol'] = 'Protocol';
+$_ADDONLANG['Firewall']['Port'] = 'Poort';
+$_ADDONLANG['Firewall']['IPCIDR'] = 'IP/CIDR';
+$_ADDONLANG['Firewall']['Remove'] = 'Verwijderen';
 $_ADDONLANG['Firewall']['ChangesImmediate'] = 'Firewall wijzigingen worden onmiddellijk toegepast. Het is niet nodig om wijzigingen door te voeren.';
 $_ADDONLANG['Firewall']['AddNewRule'] = 'Nieuwe Firewall Regel toevoegen';
 $_ADDONLANG['Firewall']['PortPlaceholder'] = '1-65535';
 $_ADDONLANG['Firewall']['SourcePlaceholder'] = '0.0.0.0/0';
-$_ADDONLANG['Firewall']['DescriptionPlaceholder'] = 'Regel beschrijving';
 $_ADDONLANG['Firewall']['Accept'] = 'ACCEPTEREN';
 $_ADDONLANG['Firewall']['Drop'] = 'WEGGOOIEN';
 $_ADDONLANG['Firewall']['Info'] = 'INFO';
@@ -234,6 +230,9 @@ $_ADDONLANG['Firewall']['Any'] = 'ELKE';
 $_ADDONLANG['Firewall']['TCP'] = 'TCP';
 $_ADDONLANG['Firewall']['UDP'] = 'UDP';
 $_ADDONLANG['Firewall']['ICMP'] = 'ICMP';
+$_ADDONLANG['Firewall']['Incoming'] = 'Inkomend';
+$_ADDONLANG['Firewall']['Outgoing'] = 'Uitgaand';
+$_ADDONLANG['Settings']['Firewall']['Direction'] = 'Richting';
 
 ## Reinstall specific
 $_ADDONLANG['Reinstall']['DestroyWarning'] = 'Herbouwen zal alle gegevens op de server vernietigen. Een nieuw root wachtwoord wordt gegenereerd en opgeslagen in uw service account.';

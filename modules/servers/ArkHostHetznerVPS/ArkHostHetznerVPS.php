@@ -3,7 +3,7 @@
  *	WHMCS Server Module - Hetzner VPS
  *
  *	@package     WHMCS
- *	@version     1.1
+ *	@version     1.1.1
  *	@copyright   Copyright (c) ArkHost 2025
  *	@author      ArkHost <support@arkhost.com>
  *  @link        https://arkhost.com
@@ -495,42 +495,107 @@ function ArkHostHetznerVPS_API(array $params) {
             }
             
             // Add new rule to existing rules
-            $newRule = array(
-                'direction' => 'in',
-                'protocol' => strtolower($params['protocol']),
-            );
+            // Handle protocol - Hetzner API doesn't accept "ANY", we need to create multiple rules
+            $protocol = strtolower($params['protocol']);
+            $rulesToAdd = array();
             
-            // Handle source IPs - ensure CIDR notation
-            if (!empty($params['source']) && $params['source'] !== '0.0.0.0/0' && $params['source'] !== 'Any') {
-                $sourceIp = trim($params['source']);
-                // If no CIDR notation, add /32 for IPv4 or /128 for IPv6
-                if (strpos($sourceIp, '/') === false) {
-                    if (filter_var($sourceIp, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6)) {
-                        $sourceIp .= '/128';
+            if ($protocol === 'any') {
+                // Create rules for tcp and udp when "ANY" is selected
+                $protocols = array('tcp', 'udp');
+                foreach ($protocols as $proto) {
+                    $rule = array(
+                        'direction' => isset($params['direction']) ? $params['direction'] : 'in',
+                        'protocol' => $proto,
+                    );
+                    
+                    // Handle IPs - use source_ips for inbound, destination_ips for outbound
+                    $direction = isset($params['direction']) ? $params['direction'] : 'in';
+                    if (!empty($params['source']) && $params['source'] !== 'Any') {
+                        $sourceIp = trim($params['source']);
+                        // If no CIDR notation, add /32 for IPv4 or /128 for IPv6
+                        if (strpos($sourceIp, '/') === false) {
+                            if (filter_var($sourceIp, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6)) {
+                                $sourceIp .= '/128';
+                            } else {
+                                $sourceIp .= '/32';
+                            }
+                        }
+                        if ($direction === 'out') {
+                            $rule['destination_ips'] = array($sourceIp);
+                            $rule['source_ips'] = array();
+                        } else {
+                            $rule['source_ips'] = array($sourceIp);
+                            $rule['destination_ips'] = array();
+                        }
                     } else {
-                        $sourceIp .= '/32';
+                        // For "Any" or empty, use 0.0.0.0/0 and ::/0 for all IPs
+                        if ($direction === 'out') {
+                            $rule['destination_ips'] = array('0.0.0.0/0', '::/0');
+                            $rule['source_ips'] = array();
+                        } else {
+                            $rule['source_ips'] = array('0.0.0.0/0', '::/0');
+                            $rule['destination_ips'] = array();
+                        }
+                    }
+                    
+                    // Handle port - Hetzner expects port as a string
+                    if (!empty($params['port'])) {
+                        $rule['port'] = strval($params['port']);
+                    }
+                    
+                    $rulesToAdd[] = $rule;
+                }
+            } else {
+                // Single protocol rule
+                $newRule = array(
+                    'direction' => isset($params['direction']) ? $params['direction'] : 'in',
+                    'protocol' => $protocol,
+                );
+                
+                // Handle IPs - use source_ips for inbound, destination_ips for outbound
+                $direction = isset($params['direction']) ? $params['direction'] : 'in';
+                if (!empty($params['source']) && $params['source'] !== 'Any') {
+                    $sourceIp = trim($params['source']);
+                    // If no CIDR notation, add /32 for IPv4 or /128 for IPv6
+                    if (strpos($sourceIp, '/') === false) {
+                        if (filter_var($sourceIp, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6)) {
+                            $sourceIp .= '/128';
+                        } else {
+                            $sourceIp .= '/32';
+                        }
+                    }
+                    if ($direction === 'out') {
+                        $newRule['destination_ips'] = array($sourceIp);
+                        $newRule['source_ips'] = array();
+                    } else {
+                        $newRule['source_ips'] = array($sourceIp);
+                        $newRule['destination_ips'] = array();
+                    }
+                } else {
+                    // For "Any" or empty, use 0.0.0.0/0 and ::/0 for all IPs
+                    if ($direction === 'out') {
+                        $newRule['destination_ips'] = array('0.0.0.0/0', '::/0');
+                        $newRule['source_ips'] = array();
+                    } else {
+                        $newRule['source_ips'] = array('0.0.0.0/0', '::/0');
+                        $newRule['destination_ips'] = array();
                     }
                 }
-                $newRule['source_ips'] = array($sourceIp);
-            } else {
-                // Empty array means all sources are allowed in Hetzner API
-                $newRule['source_ips'] = array();
+                
+                // Handle port - Hetzner expects port as a string
+                if (!empty($params['port']) && $protocol !== 'icmp') {
+                    $newRule['port'] = strval($params['port']);
+                }
+                
+                $rulesToAdd[] = $newRule;
             }
             
-            // Handle port - Hetzner expects port as a string
-            if (!empty($params['port']) && $params['protocol'] !== 'icmp') {
-                $newRule['port'] = strval($params['port']);
-            }
-            
-            // Add description if provided
-            if (!empty($params['note'])) {
-                $newRule['description'] = $params['note'];
-            }
-            
-            // Add the new rule to existing rules
+            // Add the new rules to existing rules
             // Note: Hetzner only supports ACCEPT rules for inbound traffic
             // The default policy is DROP for non-matched traffic
-            $existingRules[] = $newRule;
+            foreach ($rulesToAdd as $ruleToAdd) {
+                $existingRules[] = $ruleToAdd;
+            }
             
             // Update firewall with new rules
             $updateParams = $params;
@@ -569,15 +634,21 @@ function ArkHostHetznerVPS_API(array $params) {
             
             // Remove the rule with matching ID (we use index as ID)
             $ruleIdToDelete = $params['rule_id'];
-            $index = 0;
+            $inIndex = 0;
+            $outIndex = 0;
             foreach ($existingRules as $rule) {
                 if ($rule['direction'] === 'in') {
-                    if ('fw_' . $firewallId . '_' . $index != $ruleIdToDelete) {
+                    if ('fw_' . $firewallId . '_in_' . $inIndex != $ruleIdToDelete) {
                         $newRules[] = $rule;
                     }
-                    $index++;
+                    $inIndex++;
+                } else if ($rule['direction'] === 'out') {
+                    if ('fw_' . $firewallId . '_out_' . $outIndex != $ruleIdToDelete) {
+                        $newRules[] = $rule;
+                    }
+                    $outIndex++;
                 } else {
-                    // Keep outbound rules
+                    // Keep other rules
                     $newRules[] = $rule;
                 }
             }
@@ -1745,17 +1816,27 @@ function ArkHostHetznerVPS_ClientAreaAPI(array $params) {
                             $firewallResult = ArkHostHetznerVPS_API($firewallParams);
                             
                             if (isset($firewallResult['firewall']['rules'])) {
+                                $inIndex = 0;
+                                $outIndex = 0;
                                 foreach ($firewallResult['firewall']['rules'] as $rule) {
-                                    // Process inbound rules
-                                    if ($rule['direction'] === 'in') {
-                                        // Handle source IPs
-                                        $sourceIps = '0.0.0.0/0'; // Default when no source IPs specified
-                                        if (isset($rule['source_ips']) && is_array($rule['source_ips'])) {
-                                            if (!empty($rule['source_ips'])) {
-                                                // Join multiple source IPs with comma
-                                                $sourceIps = implode(', ', $rule['source_ips']);
+                                    // Process both inbound and outbound rules
+                                    if ($rule['direction'] === 'in' || $rule['direction'] === 'out') {
+                                        // Handle IPs based on direction
+                                        $ips = '0.0.0.0/0'; // Default when no IPs specified
+                                        if ($rule['direction'] === 'out') {
+                                            // For outbound rules, use destination_ips
+                                            if (isset($rule['destination_ips']) && is_array($rule['destination_ips'])) {
+                                                if (!empty($rule['destination_ips'])) {
+                                                    $ips = implode(', ', $rule['destination_ips']);
+                                                }
                                             }
-                                            // If source_ips is empty array, it means all sources are allowed
+                                        } else {
+                                            // For inbound rules, use source_ips
+                                            if (isset($rule['source_ips']) && is_array($rule['source_ips'])) {
+                                                if (!empty($rule['source_ips'])) {
+                                                    $ips = implode(', ', $rule['source_ips']);
+                                                }
+                                            }
                                         }
                                         
                                         // Handle port range or single port
@@ -1768,21 +1849,23 @@ function ArkHostHetznerVPS_ClientAreaAPI(array $params) {
                                             $port = 'Any';
                                         }
                                         
-                                        // Get description or use firewall name
-                                        $description = '';
-                                        if (isset($rule['description']) && !empty($rule['description'])) {
-                                            $description = $rule['description'];
+                                        // Generate ID based on direction and index
+                                        $ruleId = 'fw_' . $firewallId . '_' . $rule['direction'] . '_';
+                                        if ($rule['direction'] === 'in') {
+                                            $ruleId .= $inIndex;
+                                            $inIndex++;
                                         } else {
-                                            $description = 'Firewall: ' . (isset($firewallResult['firewall']['name']) ? $firewallResult['firewall']['name'] : $firewallId);
+                                            $ruleId .= $outIndex;
+                                            $outIndex++;
                                         }
                                         
                                         $rules[] = array(
-                                            'id' => 'fw_' . $firewallId . '_' . count($rules),
+                                            'id' => $ruleId,
+                                            'direction' => $rule['direction'],
                                             'action' => 'ACCEPT',
                                             'protocol' => strtoupper($rule['protocol']),
                                             'port' => $port,
-                                            'source' => $sourceIps,
-                                            'note' => $description
+                                            'source' => $ips
                                         );
                                     }
                                 }

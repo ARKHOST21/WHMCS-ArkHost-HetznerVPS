@@ -426,11 +426,11 @@ function ArkHostHetznerVPS_API(action, showAlert, params, callback, errorCallbac
                     }
                     if (action === 'Add Firewall rules') {
                         // Clear the form
+                        document.getElementById('firewallDirection').value = 'in';
                         document.getElementById('firewallAction').value = 'ACCEPT';
                         document.getElementById('firewallPort').value = '';
                         document.getElementById('firewallProtocol').value = 'ANY';
                         document.getElementById('firewallSource').value = '';
-                        document.getElementById('firewallNote').value = '';
                         
                         // Refresh firewall rules after adding
                         setTimeout(function() {
@@ -629,13 +629,21 @@ function updateFirewallTable(data) {
                 
                 var protocolBadge = '<span class="badge badge-secondary">' + (rule.protocol || lang.firewall.any) + '</span>';
                 
+                // Direction badge
+                var directionBadge = '';
+                if (rule.direction === 'out') {
+                    directionBadge = '<span class="badge badge-warning"><i class="fa fa-arrow-up mr-1"></i>' + (lang.firewall.outgoing || 'OUT') + '</span>';
+                } else {
+                    directionBadge = '<span class="badge badge-info"><i class="fa fa-arrow-down mr-1"></i>' + (lang.firewall.incoming || 'IN') + '</span>';
+                }
+                
                 var row = document.createElement('tr');
                 row.innerHTML = 
+                    '<td>' + directionBadge + '</td>' +
                     '<td>' + actionBadge + '</td>' +
                     '<td>' + protocolBadge + '</td>' +
                     '<td>' + (rule.port || '<span class="text-muted">' + lang.general.any + '</span>') + '</td>' +
                     '<td><code>' + (rule.source || '0.0.0.0/0') + '</code></td>' +
-                    '<td>' + (rule.note || '<span class="text-muted">' + lang.general.emptyValue + '</span>') + '</td>' +
                     '<td class="text-center">' +
                         (rule.id !== 'info' ? 
                             '<button class="btn btn-sm btn-danger" onclick="deleteFirewallRule(\'' + rule.id + '\'); return false;" title="' + lang.delete + '">' +
@@ -652,25 +660,58 @@ function updateFirewallTable(data) {
 }
 
 function addFirewallRule() {
+    var direction = document.getElementById('firewallDirection').value;
     var action = document.getElementById('firewallAction').value;
     var protocol = document.getElementById('firewallProtocol').value;
     var port = document.getElementById('firewallPort').value;
     var source = document.getElementById('firewallSource').value || '0.0.0.0/0';
-    var note = document.getElementById('firewallNote').value;
     
     // Validate port for TCP/UDP
-    if ((protocol === 'TCP' || protocol === 'UDP') && !port) {
+    if ((protocol === 'TCP' || protocol === 'UDP' || protocol === 'ANY') && !port) {
         showNotification(lang.messages.portRequired, 'error');
         document.getElementById('firewallPort').focus();
         return false;
     }
     
+    // Validate port format (single port or range)
+    if (port) {
+        // Check if it's a range (e.g., "8080-8090")
+        if (port.includes('-')) {
+            var parts = port.split('-');
+            if (parts.length !== 2) {
+                showNotification('Invalid port range format. Use format: 8080-8090', 'error');
+                document.getElementById('firewallPort').focus();
+                return false;
+            }
+            var startPort = parseInt(parts[0]);
+            var endPort = parseInt(parts[1]);
+            if (isNaN(startPort) || isNaN(endPort) || startPort < 1 || startPort > 65535 || endPort < 1 || endPort > 65535) {
+                showNotification('Port range values must be between 1 and 65535', 'error');
+                document.getElementById('firewallPort').focus();
+                return false;
+            }
+            if (startPort >= endPort) {
+                showNotification('Start port must be less than end port', 'error');
+                document.getElementById('firewallPort').focus();
+                return false;
+            }
+        } else {
+            // Single port
+            var portNum = parseInt(port);
+            if (isNaN(portNum) || portNum < 1 || portNum > 65535) {
+                showNotification('Port must be between 1 and 65535', 'error');
+                document.getElementById('firewallPort').focus();
+                return false;
+            }
+        }
+    }
+    
     ArkHostHetznerVPS_API('Add Firewall rules', true, { 
+        direction: direction,
         firewallAction: action, 
         protocol: protocol, 
         source: source, 
-        port: port, 
-        note: note 
+        port: port 
     });
     
     return false;

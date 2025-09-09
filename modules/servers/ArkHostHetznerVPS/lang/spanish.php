@@ -149,20 +149,11 @@ $_ADDONLANG['Settings']['Reinstall']['Submit'] = 'Reinstalar';
 
 ### Firewall
 $_ADDONLANG['Settings']['Firewall']['Title'] = 'Firewall';
-$_ADDONLANG['Settings']['Firewall']['Description'] = 'Las reglas se evalúan de arriba hacia abajo. Por defecto, todo está permitido. El firewall solo está disponible en la interfaz pública. Solo el tráfico entrante será filtrado por el firewall.';
 $_ADDONLANG['Settings']['Firewall']['Action'] = 'Acción';
 $_ADDONLANG['Settings']['Firewall']['Port'] = 'Puerto';
 $_ADDONLANG['Settings']['Firewall']['Protocol'] = 'Protocolo';
-$_ADDONLANG['Settings']['Firewall']['Source'] = 'Origen';
-$_ADDONLANG['Settings']['Firewall']['Note'] = 'Nota';
-$_ADDONLANG['Settings']['Firewall']['Actions'] = 'Acciones';
 $_ADDONLANG['Settings']['Firewall']['Accept'] = 'Aceptar';
 $_ADDONLANG['Settings']['Firewall']['Drop'] = 'Descartar';
-$_ADDONLANG['Settings']['Firewall']['PortNumber'] = 'Número de Puerto';
-$_ADDONLANG['Settings']['Firewall']['SourceLabel'] = 'Ej: x.x.x.x/xx (opcional)';
-$_ADDONLANG['Settings']['Firewall']['Notes'] = 'Notas (opcional)';
-$_ADDONLANG['Settings']['Firewall']['Warning'] = 'Las reglas deben ser confirmadas para tomar efecto.';
-$_ADDONLANG['Settings']['Firewall']['Submit'] = 'Confirmar Firewall';
 
 ### Rescue Mode
 $_ADDONLANG['Settings']['Rescue']['Title'] = 'Modo de Rescate';
@@ -222,11 +213,16 @@ $_ADDONLANG['General']['Colon'] = ': ';
 ## Firewall specific
 $_ADDONLANG['Firewall']['CurrentRules'] = 'Reglas Actuales del Firewall';
 $_ADDONLANG['Firewall']['ResourcesAttached'] = 'Los recursos del firewall están adjuntos a los servidores. Si no hay firewall adjunto, se creará uno automáticamente cuando agregues tu primera regla.';
+$_ADDONLANG['Firewall']['Direction'] = 'Dirección';
+$_ADDONLANG['Firewall']['Action'] = 'Acción';
+$_ADDONLANG['Firewall']['Protocol'] = 'Protocolo';
+$_ADDONLANG['Firewall']['Port'] = 'Puerto';
+$_ADDONLANG['Firewall']['IPCIDR'] = 'IP/CIDR';
+$_ADDONLANG['Firewall']['Remove'] = 'Eliminar';
 $_ADDONLANG['Firewall']['ChangesImmediate'] = 'Los cambios del firewall se aplican inmediatamente. No es necesario confirmar cambios.';
 $_ADDONLANG['Firewall']['AddNewRule'] = 'Agregar Nueva Regla del Firewall';
 $_ADDONLANG['Firewall']['PortPlaceholder'] = '1-65535';
 $_ADDONLANG['Firewall']['SourcePlaceholder'] = '0.0.0.0/0';
-$_ADDONLANG['Firewall']['DescriptionPlaceholder'] = 'Descripción de la regla';
 $_ADDONLANG['Firewall']['Accept'] = 'ACEPTAR';
 $_ADDONLANG['Firewall']['Drop'] = 'DESCARTAR';
 $_ADDONLANG['Firewall']['Info'] = 'INFO';
@@ -234,6 +230,9 @@ $_ADDONLANG['Firewall']['Any'] = 'CUALQUIERA';
 $_ADDONLANG['Firewall']['TCP'] = 'TCP';
 $_ADDONLANG['Firewall']['UDP'] = 'UDP';
 $_ADDONLANG['Firewall']['ICMP'] = 'ICMP';
+$_ADDONLANG['Firewall']['Incoming'] = 'Entrante';
+$_ADDONLANG['Firewall']['Outgoing'] = 'Saliente';
+$_ADDONLANG['Settings']['Firewall']['Direction'] = 'Dirección';
 
 ## Reinstall specific
 $_ADDONLANG['Reinstall']['DestroyWarning'] = 'La reinstalación destruirá todos los datos en el servidor. Se generará una nueva contraseña root y se guardará en tu cuenta de servicio.';

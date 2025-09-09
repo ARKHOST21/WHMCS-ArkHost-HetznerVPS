@@ -149,20 +149,11 @@ $_ADDONLANG['Settings']['Reinstall']['Submit'] = 'Переустановить';
 
 ### Firewall
 $_ADDONLANG['Settings']['Firewall']['Title'] = 'Файервол';
-$_ADDONLANG['Settings']['Firewall']['Description'] = 'Правила оцениваются сверху вниз. По умолчанию все разрешено. Файервол доступен только на публичном интерфейсе. Файервол фильтрует только входящий трафик.';
 $_ADDONLANG['Settings']['Firewall']['Action'] = 'Действие';
 $_ADDONLANG['Settings']['Firewall']['Port'] = 'Порт';
 $_ADDONLANG['Settings']['Firewall']['Protocol'] = 'Протокол';
-$_ADDONLANG['Settings']['Firewall']['Source'] = 'Источник';
-$_ADDONLANG['Settings']['Firewall']['Note'] = 'Примечание';
-$_ADDONLANG['Settings']['Firewall']['Actions'] = 'Действия';
 $_ADDONLANG['Settings']['Firewall']['Accept'] = 'Принять';
 $_ADDONLANG['Settings']['Firewall']['Drop'] = 'Отбросить';
-$_ADDONLANG['Settings']['Firewall']['PortNumber'] = 'Номер порта';
-$_ADDONLANG['Settings']['Firewall']['SourceLabel'] = 'Например: x.x.x.x/xx (опционально)';
-$_ADDONLANG['Settings']['Firewall']['Notes'] = 'Примечания (опционально)';
-$_ADDONLANG['Settings']['Firewall']['Warning'] = 'Правила должны быть применены, чтобы вступить в силу.';
-$_ADDONLANG['Settings']['Firewall']['Submit'] = 'Применить файервол';
 
 ### Rescue Mode
 $_ADDONLANG['Settings']['Rescue']['Title'] = 'Режим восстановления';
@@ -222,11 +213,16 @@ $_ADDONLANG['General']['Colon'] = ': ';
 ## Firewall specific
 $_ADDONLANG['Firewall']['CurrentRules'] = 'Текущие правила файервола';
 $_ADDONLANG['Firewall']['ResourcesAttached'] = 'Ресурсы файервола прикреплены к серверам. Если файервол не прикреплен, он будет создан автоматически, когда вы добавите первое правило.';
+$_ADDONLANG['Firewall']['Direction'] = 'Направление';
+$_ADDONLANG['Firewall']['Action'] = 'Действие';
+$_ADDONLANG['Firewall']['Protocol'] = 'Протокол';
+$_ADDONLANG['Firewall']['Port'] = 'Порт';
+$_ADDONLANG['Firewall']['IPCIDR'] = 'IP/CIDR';
+$_ADDONLANG['Firewall']['Remove'] = 'Удалить';
 $_ADDONLANG['Firewall']['ChangesImmediate'] = 'Изменения файервола применяются немедленно. Нет необходимости подтверждать изменения.';
 $_ADDONLANG['Firewall']['AddNewRule'] = 'Добавить новое правило файервола';
 $_ADDONLANG['Firewall']['PortPlaceholder'] = '1-65535';
 $_ADDONLANG['Firewall']['SourcePlaceholder'] = '0.0.0.0/0';
-$_ADDONLANG['Firewall']['DescriptionPlaceholder'] = 'Описание правила';
 $_ADDONLANG['Firewall']['Accept'] = 'ПРИНЯТЬ';
 $_ADDONLANG['Firewall']['Drop'] = 'ОТБРОСИТЬ';
 $_ADDONLANG['Firewall']['Info'] = 'ИНФО';
@@ -234,6 +230,9 @@ $_ADDONLANG['Firewall']['Any'] = 'ЛЮБОЙ';
 $_ADDONLANG['Firewall']['TCP'] = 'TCP';
 $_ADDONLANG['Firewall']['UDP'] = 'UDP';
 $_ADDONLANG['Firewall']['ICMP'] = 'ICMP';
+$_ADDONLANG['Firewall']['Incoming'] = 'Входящий';
+$_ADDONLANG['Firewall']['Outgoing'] = 'Исходящий';
+$_ADDONLANG['Settings']['Firewall']['Direction'] = 'Направление';
 
 ## Reinstall specific
 $_ADDONLANG['Reinstall']['DestroyWarning'] = 'Перестроение уничтожит все данные на сервере. Новый root пароль будет сгенерирован и сохранен в вашей учетной записи службы.';

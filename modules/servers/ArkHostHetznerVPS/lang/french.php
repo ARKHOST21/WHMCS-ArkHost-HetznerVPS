@@ -149,20 +149,11 @@ $_ADDONLANG['Settings']['Reinstall']['Submit'] = 'Réinstaller';
 
 ### Firewall
 $_ADDONLANG['Settings']['Firewall']['Title'] = 'Pare-feu';
-$_ADDONLANG['Settings']['Firewall']['Description'] = 'Les règles sont évaluées de haut en bas. Par défaut, tout est autorisé. Le pare-feu n\'est disponible que sur l\'interface publique. Seul le trafic entrant sera filtré par le pare-feu.';
 $_ADDONLANG['Settings']['Firewall']['Action'] = 'Action';
 $_ADDONLANG['Settings']['Firewall']['Port'] = 'Port';
 $_ADDONLANG['Settings']['Firewall']['Protocol'] = 'Protocole';
-$_ADDONLANG['Settings']['Firewall']['Source'] = 'Source';
-$_ADDONLANG['Settings']['Firewall']['Note'] = 'Note';
-$_ADDONLANG['Settings']['Firewall']['Actions'] = 'Actions';
 $_ADDONLANG['Settings']['Firewall']['Accept'] = 'Accepter';
 $_ADDONLANG['Settings']['Firewall']['Drop'] = 'Rejeter';
-$_ADDONLANG['Settings']['Firewall']['PortNumber'] = 'Numéro de Port';
-$_ADDONLANG['Settings']['Firewall']['SourceLabel'] = 'Ex : x.x.x.x/xx (optionnel)';
-$_ADDONLANG['Settings']['Firewall']['Notes'] = 'Notes (optionnel)';
-$_ADDONLANG['Settings']['Firewall']['Warning'] = 'Les règles doivent être validées pour prendre effet.';
-$_ADDONLANG['Settings']['Firewall']['Submit'] = 'Valider le Pare-feu';
 
 ### Rescue Mode
 $_ADDONLANG['Settings']['Rescue']['Title'] = 'Mode de Secours';
@@ -222,11 +213,16 @@ $_ADDONLANG['General']['Colon'] = ' : ';
 ## Firewall specific
 $_ADDONLANG['Firewall']['CurrentRules'] = 'Règles Actuelles du Pare-feu';
 $_ADDONLANG['Firewall']['ResourcesAttached'] = 'Les ressources de pare-feu sont attachées aux serveurs. Si aucun pare-feu n\'est attaché, un sera créé automatiquement lorsque vous ajouterez votre première règle.';
+$_ADDONLANG['Firewall']['Direction'] = 'Direction';
+$_ADDONLANG['Firewall']['Action'] = 'Action';
+$_ADDONLANG['Firewall']['Protocol'] = 'Protocole';
+$_ADDONLANG['Firewall']['Port'] = 'Port';
+$_ADDONLANG['Firewall']['IPCIDR'] = 'IP/CIDR';
+$_ADDONLANG['Firewall']['Remove'] = 'Supprimer';
 $_ADDONLANG['Firewall']['ChangesImmediate'] = 'Les changements du pare-feu sont appliqués immédiatement. Il n\'y a pas besoin de valider les changements.';
 $_ADDONLANG['Firewall']['AddNewRule'] = 'Ajouter une Nouvelle Règle de Pare-feu';
 $_ADDONLANG['Firewall']['PortPlaceholder'] = '1-65535';
 $_ADDONLANG['Firewall']['SourcePlaceholder'] = '0.0.0.0/0';
-$_ADDONLANG['Firewall']['DescriptionPlaceholder'] = 'Description de la règle';
 $_ADDONLANG['Firewall']['Accept'] = 'ACCEPTER';
 $_ADDONLANG['Firewall']['Drop'] = 'REJETER';
 $_ADDONLANG['Firewall']['Info'] = 'INFO';
@@ -234,6 +230,9 @@ $_ADDONLANG['Firewall']['Any'] = 'TOUT';
 $_ADDONLANG['Firewall']['TCP'] = 'TCP';
 $_ADDONLANG['Firewall']['UDP'] = 'UDP';
 $_ADDONLANG['Firewall']['ICMP'] = 'ICMP';
+$_ADDONLANG['Firewall']['Incoming'] = 'Entrant';
+$_ADDONLANG['Firewall']['Outgoing'] = 'Sortant';
+$_ADDONLANG['Settings']['Firewall']['Direction'] = 'Direction';
 
 ## Reinstall specific
 $_ADDONLANG['Reinstall']['DestroyWarning'] = 'La reconstruction détruira toutes les données sur le serveur. Un nouveau mot de passe root sera généré et sauvegardé dans votre compte de service.';
