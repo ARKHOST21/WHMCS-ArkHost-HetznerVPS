@@ -12,6 +12,7 @@ WHMCS server module for Hetzner Cloud VPS management.
 
 **Advanced**
 
+- Cloud-init support for automated server configuration
 - Floating IP management with reverse DNS
 - Backup creation and restoration
 - Firewall rule management
@@ -60,6 +61,7 @@ WHMCS server module for Hetzner Cloud VPS management.
 - Datacenter: `fsn1`, `nbg1`, `hel1`, `ash`, `hil`, `sin`
 - Backups: On/Off
 - Create Floating IP: On/Off
+- Cloud-Init YAML: Optional custom cloud-init configuration
 
 **Custom Field (Required)**
 
@@ -188,6 +190,102 @@ This ensures proper key isolation and security for each customer.
 **Future development:**
 
 We're exploring secure implementations using cloud-init or per-server user data to enable SSH key management while maintaining proper isolation.
+
+## Cloud-Init Support
+
+Cloud-init allows automatic server configuration during first boot. Unlike project-level SSH keys, cloud-init user_data is per-server, ensuring proper isolation in multi-tenant environments.
+
+**Configuration:**
+
+1. Navigate to Setup → Products/Services → Products/Services
+2. Edit your product → Module Settings tab
+3. Find "Cloud-Init YAML (Optional)" textarea
+4. Enter your cloud-init configuration in YAML format
+5. Leave empty to skip cloud-init
+
+**Common Use Cases:**
+
+**1. Change APT Mirrors** (original use case - avoid Hetzner mirrors):
+```yaml
+#cloud-config
+apt:
+  primary:
+    - arches: [default]
+      uri: http://de.archive.ubuntu.com/ubuntu/
+```
+
+**2. Add SSH Keys** (secure alternative to project-level keys):
+```yaml
+#cloud-config
+users:
+  - name: admin
+    ssh_authorized_keys:
+      - ssh-rsa AAAAB3NzaC1yc2E... user@laptop
+    sudo: ALL=(ALL) NOPASSWD:ALL
+    shell: /bin/bash
+```
+
+**3. Install Docker:**
+```yaml
+#cloud-config
+packages:
+  - docker.io
+  - docker-compose
+
+runcmd:
+  - systemctl enable docker
+  - systemctl start docker
+```
+
+**4. Security Hardening:**
+```yaml
+#cloud-config
+packages:
+  - fail2ban
+  - ufw
+
+runcmd:
+  - ufw default deny incoming
+  - ufw default allow outgoing
+  - ufw allow 22/tcp
+  - ufw --force enable
+  - systemctl enable fail2ban
+  - systemctl start fail2ban
+```
+
+**5. Combined Configuration:**
+```yaml
+#cloud-config
+apt:
+  primary:
+    - arches: [default]
+      uri: http://mirror.example.com/ubuntu/
+
+users:
+  - name: admin
+    ssh_authorized_keys:
+      - ssh-rsa AAAAB3... admin@company
+    sudo: ALL=(ALL) NOPASSWD:ALL
+
+packages:
+  - fail2ban
+  - ufw
+  - docker.io
+
+runcmd:
+  - ufw allow 22/tcp
+  - ufw --force enable
+  - systemctl enable docker fail2ban
+```
+
+**Important Notes:**
+
+- YAML must be valid syntax (use a YAML validator if unsure)
+- If you don't start with `#cloud-config`, the module will add it automatically
+- Cloud-init runs ONCE on first boot only
+- Invalid YAML will cause provisioning to fail silently
+- Maximum size: 32 KiB (Hetzner API limit)
+- Documentation: https://docs.hetzner.cloud/#servers-create-a-server
 
 ## Screenshots
 ![Screenshot 1](screenshots/1.png)

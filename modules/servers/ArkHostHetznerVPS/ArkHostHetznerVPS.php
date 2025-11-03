@@ -176,7 +176,21 @@ function ArkHostHetznerVPS_API(array $params) {
             if (ArkHostHetznerVPS_GetOption($params, 'ipv6') === 'on') {
                 $data['enable_ipv6'] = false;
             }
-            
+
+            // Handle Cloud-Init user_data if provided
+            $cloudInitYaml = ArkHostHetznerVPS_GetOption($params, 'cloud_init_yaml');
+            if ($cloudInitYaml && trim($cloudInitYaml) !== '') {
+                // Basic YAML validation - check if it starts with #cloud-config
+                $trimmedYaml = trim($cloudInitYaml);
+                if (strpos($trimmedYaml, '#cloud-config') !== 0) {
+                    // Auto-prepend #cloud-config if missing
+                    $cloudInitYaml = "#cloud-config\n" . $cloudInitYaml;
+                }
+
+                // Pass as plain text - Hetzner API accepts user_data as plain string (max 32KiB)
+                $data['user_data'] = $cloudInitYaml;
+            }
+
             // Handle SSH keys from custom field if needed
             // This would need to be implemented with a custom field
             break;
@@ -987,6 +1001,13 @@ function ArkHostHetznerVPS_ConfigOptions() {
             'FriendlyName' => 'Create Floating IP',
             'Description' => 'Automatically create a floating IP when provisioning this server (additional cost - billed by Hetzner).',
             'Type' => 'yesno',
+        ),
+        'cloud_init_yaml' => array(
+            'FriendlyName' => 'Cloud-Init YAML (Optional)',
+            'Description' => 'Custom cloud-init configuration in YAML format (max 32KiB). Passed as user_data to Hetzner API during server creation. Leave empty to skip cloud-init. <a href="https://docs.hetzner.cloud/#servers-create-a-server" target="_blank">Documentation</a>',
+            'Type' => 'textarea',
+            'Rows' => '10',
+            'Cols' => '60',
         ),
     );
     
