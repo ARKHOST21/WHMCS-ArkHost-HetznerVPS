@@ -116,12 +116,12 @@ function ArkHostHetznerVPS_API(array $params) {
             break;
             
         case 'Packages':
-            $url .= 'server_types';
+            $url .= 'server_types?per_page=50';
             $method = 'GET';
             break;
 
         case 'Operating Systems':
-            $url .= 'images?type=system';
+            $url .= 'images?type=system&per_page=50';
             $method = 'GET';
             break;
             
@@ -239,7 +239,7 @@ function ArkHostHetznerVPS_API(array $params) {
             break;
 
         case 'Operating Systems - Server':
-            $url .= 'images?type=system';
+            $url .= 'images?type=system&per_page=50';
             $method = 'GET';
             break;
 

@@ -55,9 +55,9 @@ WHMCS server module for Hetzner Cloud VPS management.
 
 **Module Settings**
 
-- Server Type: `cx11`, `cx21`, `cx31`, `cx41`, `cx51` , etc.
-- Operating System: `ubuntu-20.04`, `debian-11`, etc.
-- Datacenter: `fsn1`, `nbg1`, `hel1`, `ash`, `hil`
+- Server Type: `cx23`, `cx33`, `cx43`, `cx53` (Cost-Optimized), `cpx11`, `cpx21`, `cax11`, `ccx13`, etc.
+- Operating System: `ubuntu-22.04`, `debian-11`, `rocky-9`, etc.
+- Datacenter: `fsn1`, `nbg1`, `hel1`, `ash`, `hil`, `sin`
 - Backups: On/Off
 - Create Floating IP: On/Off
 
@@ -98,6 +98,10 @@ Create in Setup → Products/Services → Configurable Options:
 - Option Name: `planid`
 - Option Type: `Dropdown`
 - Options:
+- `cx23|CX23 - 2 vCPU, 4 GB RAM, 40 GB Disk, shared (Cost-Optimized)`
+- `cx33|CX33 - 4 vCPU, 8 GB RAM, 80 GB Disk, shared (Cost-Optimized)`
+- `cx43|CX43 - 8 vCPU, 16 GB RAM, 160 GB Disk, shared (Cost-Optimized)`
+- `cx53|CX53 - 16 vCPU, 32 GB RAM, 320 GB Disk, shared (Cost-Optimized)`
 - `cpx11|CPX 11 - 2 vCPU, 2 GB RAM, 40 GB Disk, shared`
 - `cpx21|CPX 21 - 3 vCPU, 4 GB RAM, 80 GB Disk, shared`
 - `cpx31|CPX 31 - 4 vCPU, 8 GB RAM, 160 GB Disk, shared`
@@ -121,34 +125,36 @@ Create in Setup → Products/Services → Configurable Options:
 
 **4\. Operating System**
 
-- Option Name: `osid`
-- Option Type: `Dropdown`
+- Option Name: `osid`
+- Option Type: `Dropdown`
 - Options:
-- `lamp|lamp`
--`wordpress|wordpress`
--`jitsi|jitsi`
--`nextcloud|nextcloud`
-- `docker-ce|docker-ce`
-- `gitlab|gitlab`
 - `debian-11|Debian 11`
-- `rocky-8|Rocky Linux 8`
-- `centos-stream-9|CentOS Stream 9`
+- `debian-12|Debian 12`
+- `debian-13|Debian 13`
 - `ubuntu-22.04|Ubuntu 22.04`
-- `prometheus-grafana|prometheus-grafana`
-- `rocky-9|Rocky Linux 9`
-- `wireguard|wireguard`
-- `owncast|owncast`
-- `photoprism|photoprism`
-- `rustdesk|rustdesk`
-- `centos-stream-9|CentOS Stream 9`
-- `debian-11|Debian 11`
+- `ubuntu-24.04|Ubuntu 24.04`
 - `rocky-8|Rocky Linux 8`
 - `rocky-9|Rocky Linux 9`
-- `ubuntu-22.04|Ubuntu 22.04`
+- `rocky-10|Rocky Linux 10`
 - `alma-8|AlmaLinux 8`
 - `alma-9|AlmaLinux 9`
-- `jitsi|jitsi`
-- `owncast|owncast`
+- `alma-10|AlmaLinux 10`
+- `centos-stream-9|CentOS Stream 9`
+- `centos-stream-10|CentOS Stream 10`
+- `opensuse-15|openSUSE 15`
+- `fedora-41|Fedora 41`
+- `fedora-42|Fedora 42`
+- `docker-ce|Docker CE`
+- `lamp|LAMP Stack`
+- `wordpress|WordPress`
+- `nextcloud|Nextcloud`
+- `gitlab|GitLab`
+- `jitsi|Jitsi`
+- `wireguard|WireGuard`
+- `prometheus-grafana|Prometheus + Grafana`
+- `owncast|Owncast`
+- `photoprism|PhotoPrism`
+- `rustdesk|RustDesk`
 
 
   
