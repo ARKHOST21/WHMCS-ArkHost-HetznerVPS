@@ -39,14 +39,15 @@ WHMCS server module for Hetzner Cloud VPS management.
 ## Installation
 
 1. Upload files to `/path/to/whmcs/modules/servers/ArkHostHetznerVPS/`
-2. Create server and add it to a server group:
+2. Upload `hooks.php` to `/path/to/whmcs/includes/hooks/` (for enhanced UI)
+3. Create server and add it to a server group:
     - Setup → Products/Services → Servers → Create New Group
     - Name: `Hetzner Cloud`
     - Type: `ArkHostHetznerVPS`
     - Hostname: `localhost`
     - Username: Hetzner Project ID (optional)
     - Password: Hetzner Cloud API Token
-3. Create products:
+4. Create products:
     - Setup → Products/Services → Products/Services → Create New Product
     - Type: `VPS/Dedicated Server`
     - Module: `ArkHostHetznerVPS`
@@ -336,5 +337,61 @@ Free and open source. Commercial support available.
 ## Other ArkHost Modules
 
 Check out our other WHMCS modules at [arkhost.com/whmcs-modules.php](https://arkhost.com/whmcs-modules.php "https://arkhost.com/whmcs-modules.php")
+
+## Changelog
+
+### v1.2.1
+**Added:**
+- Shutdown button functionality (graceful server shutdown)
+- Enhanced backup permission detection (automatically detects Hetzner-enabled backups)
+- Improved Actions sidebar with custom Font Awesome icons
+- VNC console opens in new tab
+- hooks.php for cleaner UI (hides default WHMCS elements)
+
+**Fixed:**
+- Backup creation/deletion API response format
+- Shutdown action now properly whitelisted in ClientAreaAPI
+
+### v1.2.0
+**Added:**
+- Cloud-init support (optional per-product YAML configuration)
+- CX Gen3 server types: CX23, CX33, CX43, CX53
+- OS images: Debian 13, AlmaLinux 10, Rocky 10, CentOS Stream 10, openSUSE 15, Fedora 41/42
+- Password expiration (72-hour visibility window)
+
+**Fixed:**
+- API pagination - server types and OS images now show all available options (per_page=50)
+- Password reset timestamp tracking
+- Password display in client area after reset
+
+**Documentation:**
+- Cloud-init configuration examples
+- Updated server types and OS lists
+
+### v1.1.1
+**Fixed:**
+- Firewall rules now accept source 0.0.0.0/0 for all IPs
+- "ANY" protocol creates both TCP and UDP rules automatically
+- Outbound firewall rules now use correct destination_ips field
+
+**Added:**
+- Incoming/Outgoing direction support for firewall rules
+- Proper CIDR notation validation (supports /0, /4, /8, /16, etc.)
+
+**Improved:**
+- Removed description/note field from firewall interface
+- Changed "Source/Destination" column to "IP/CIDR" for clarity
+- Translated all firewall column headers to all supported languages
+- Cleaned up unused language strings
+
+### v1.1
+**Fixed:**
+- Firewall Display: Removed fake "default open" rules that didn't exist in Hetzner dashboard
+- Firewall Creation: Fixed "name already used" error with unique timestamp naming
+- Firewall Association: Fixed API errors when attaching firewalls to servers
+- API Compatibility: Corrected data formats for Hetzner API (ports as strings, proper server object structure)
+
+### v1.0
+- Initial release
 
 © 2025 ArkHost

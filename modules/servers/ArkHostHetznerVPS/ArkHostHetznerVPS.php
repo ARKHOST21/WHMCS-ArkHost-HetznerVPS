@@ -3,7 +3,7 @@
  *	WHMCS Server Module - Hetzner VPS
  *
  *	@package     WHMCS
- *	@version     1.1.1
+ *	@version     1.2.1
  *	@copyright   Copyright (c) ArkHost 2025
  *	@author      ArkHost <support@arkhost.com>
  *  @link        https://arkhost.com
@@ -903,7 +903,7 @@ function ArkHostHetznerVPS_API(array $params) {
 
     $responseData = curl_exec($curl);
     $statusCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
-    
+
     $responseData = json_decode($responseData, true);
 
     if ($statusCode === 0) throw new Exception('cURL Error: ' . curl_error($curl));
@@ -1529,7 +1529,7 @@ function ArkHostHetznerVPS_ClientAreaAPI(array $params) {
     try {
         $action = App::getFromRequest('api');
         
-        $actions = array('Server Info', 'Graphs', 'Reinstall', 'Reboot', 'Stop', 'Start', 'IPv4 Addresses', 'Hostname rDNS', 'Create backup', 'Delete backup', 'List backups', 'Restore backup', 'Get Firewall rules', 'Add Firewall rules', 'Delete Firewall rule', 'Commit Firewall rules', 'ISO Images', 'Load ISO', 'Eject ISO', 'Reset root', 'Create Snapshot', 'List Snapshots', 'Server Metrics', 'Rescue Mode', 'Disable Rescue Mode', 'GetFloatingIPStatus', 'AssignFloatingIP', 'UnassignFloatingIP', 'SetFloatingIPReverseDNS');
+        $actions = array('Server Info', 'Graphs', 'Reinstall', 'Reboot', 'Stop', 'Shutdown', 'Start', 'IPv4 Addresses', 'Hostname rDNS', 'Create backup', 'Delete backup', 'List backups', 'Restore backup', 'Get Firewall rules', 'Add Firewall rules', 'Delete Firewall rule', 'Commit Firewall rules', 'ISO Images', 'Load ISO', 'Eject ISO', 'Reset root', 'Create Snapshot', 'List Snapshots', 'Server Metrics', 'Rescue Mode', 'Disable Rescue Mode', 'GetFloatingIPStatus', 'AssignFloatingIP', 'UnassignFloatingIP', 'SetFloatingIPReverseDNS');
         $results = array('result' => 'success');
 
         if (in_array($action, $actions)) {
@@ -1542,22 +1542,39 @@ function ArkHostHetznerVPS_ClientAreaAPI(array $params) {
             if (in_array($action, $backupActions)) {
                 // Check if backups are enabled either via module settings or configurable options
                 $backupsEnabled = false;
-                
+
                 // Check module product settings
                 if (isset($params['backups']) && $params['backups'] == 'on') {
                     $backupsEnabled = true;
                 }
-                
+
                 // Check configurable options
                 if (isset($params['configoptions']['Backups']) && $params['configoptions']['Backups'] == 'Yes') {
                     $backupsEnabled = true;
                 }
-                
+
+                // If not enabled in WHMCS settings, check if backups are actually enabled on Hetzner's side
                 if (!$backupsEnabled) {
-                    return array(
+                    try {
+                        $serverInfoParams = $params;
+                        $serverInfoParams['action'] = 'Server Info';
+                        $serverInfoResult = ArkHostHetznerVPS_API($serverInfoParams);
+
+                        // Check if the server has backups enabled (indicated by backup_window being set)
+                        if (isset($serverInfoResult['server']['backup_window']) && $serverInfoResult['server']['backup_window'] !== null) {
+                            $backupsEnabled = true;
+                        }
+                    } catch (Exception $e) {
+                        // If we can't check, assume not enabled
+                        $backupsEnabled = false;
+                    }
+                }
+
+                if (!$backupsEnabled) {
+                    return array('jsonResponse' => array(
                         'result' => 'error',
                         'message' => 'Backups are not enabled for this service. Please upgrade your plan to enable backups.'
-                    );
+                    ));
                 }
             }
 
@@ -2046,6 +2063,7 @@ function ArkHostHetznerVPS_ClientAreaCustomButtonArray() {
         $_LANG['Start'] => 'Start',
         $_LANG['Stop'] => 'Stop',
         $_LANG['Restart'] => 'Reboot',
+        $_LANG['Shutdown'] => 'Shutdown',
         $_LANG['VNC'] => 'VNC',
 	);
 }
@@ -2094,7 +2112,7 @@ function ArkHostHetznerVPS_ClientArea(array $params) {
         if (!is_array($response) || !isset($response['server'])) {
             throw new Exception('Unable to retrieve server information from API');
         }
-        
+
         // Extract server data from Hetzner response
         $serverInfo = $response['server'];
 

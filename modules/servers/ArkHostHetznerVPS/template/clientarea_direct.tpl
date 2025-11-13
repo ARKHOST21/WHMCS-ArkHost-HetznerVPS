@@ -756,4 +756,66 @@
     </div>
 </div>
 
+<script>
+// Wait for WHMCS jQuery to be ready and use it
+jQuery(document).ready(function($) {
+    // Inject custom icons into sidebar action buttons
+    $('.list-group-item').each(function() {
+        var $link = $(this);
+        var href = $link.attr('href');
+
+        if (!href) return;
+
+        // Add custom Font Awesome icons based on action
+        if (href.indexOf('modop=custom&a=Start') !== -1) {
+            // Prepend play icon to Start button
+            $link.html('<i class="fa fa-play"></i> ' + $link.text().trim());
+
+            // Intercept click to use our API
+            $link.off('click').on('click', function(e) {
+                e.preventDefault();
+                e.stopImmediatePropagation();
+                ArkHostHetznerVPS_API('Start', true);
+                return false;
+            });
+        } else if (href.indexOf('modop=custom&a=Stop') !== -1) {
+            // Prepend stop icon to Stop button
+            $link.html('<i class="fa fa-stop"></i> ' + $link.text().trim());
+
+            $link.off('click').on('click', function(e) {
+                e.preventDefault();
+                e.stopImmediatePropagation();
+                confirmStop();
+                return false;
+            });
+        } else if (href.indexOf('modop=custom&a=Reboot') !== -1) {
+            // Prepend sync icon to Restart button
+            $link.html('<i class="fa fa-sync"></i> ' + $link.text().trim());
+
+            $link.off('click').on('click', function(e) {
+                e.preventDefault();
+                e.stopImmediatePropagation();
+                confirmRestart();
+                return false;
+            });
+        } else if (href.indexOf('modop=custom&a=Shutdown') !== -1) {
+            // Prepend power-off icon to Shutdown button
+            $link.html('<i class="fa fa-power-off"></i> ' + $link.text().trim());
+
+            $link.off('click').on('click', function(e) {
+                e.preventDefault();
+                e.stopImmediatePropagation();
+                confirmShutdown();
+                return false;
+            });
+        } else if (href.indexOf('modop=custom&a=VNC') !== -1) {
+            // Prepend desktop icon to VNC button
+            $link.html('<i class="fa fa-desktop"></i> ' + $link.text().trim());
+            // Open VNC in new tab
+            $link.attr('target', '_blank');
+        }
+    });
+});
+</script>
+
 <script src="{$WEB_ROOT}/modules/servers/ArkHostHetznerVPS/template/script.js"></script>
