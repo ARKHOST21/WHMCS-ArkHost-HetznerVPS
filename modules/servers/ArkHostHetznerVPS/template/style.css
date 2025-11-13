@@ -68,21 +68,68 @@
     font-weight: 600;
     transition: all 0.3s ease;
 }
-.arkhost-vps-container .btn-danger {
+.arkhost-vps-container .btn-danger,
+.arkhost-vps-container button.btn-danger,
+.arkhost-vps-container .btn.btn-danger,
+.arkhost-vps-container button.btn.btn-danger {
     background: linear-gradient(135deg, #dc3545 0%, #c82333 100%) !important;
+    background-color: #dc3545 !important;
     color: white !important;
     border: none !important;
-    padding: 10px 20px;
-    border-radius: 12px;
-    font-weight: 600;
-    transition: all 0.3s ease;
-    box-shadow: 0 2px 8px rgba(220, 53, 69, 0.3);
+    border-color: #dc3545 !important;
+    padding: 10px 20px !important;
+    border-radius: 12px !important;
+    font-weight: 600 !important;
+    transition: all 0.3s ease !important;
+    box-shadow: 0 2px 8px rgba(220, 53, 69, 0.3) !important;
+    opacity: 1 !important;
 }
-.arkhost-vps-container .btn-danger:hover {
+.arkhost-vps-container .btn-danger:hover,
+.arkhost-vps-container button.btn-danger:hover,
+.arkhost-vps-container .btn.btn-danger:hover,
+.arkhost-vps-container button.btn.btn-danger:hover,
+.arkhost-vps-container .btn-danger:focus,
+.arkhost-vps-container button.btn-danger:focus {
     background: linear-gradient(135deg, #c82333 0%, #bd2130 100%) !important;
+    background-color: #c82333 !important;
+    color: white !important;
+    border-color: #c82333 !important;
     box-shadow: 0 4px 12px rgba(220, 53, 69, 0.5) !important;
-    transform: translateY(-1px);
+    transform: translateY(-1px) !important;
+    opacity: 1 !important;
 }
+.arkhost-vps-container .btn-danger:active,
+.arkhost-vps-container button.btn-danger:active {
+    background: #bd2130 !important;
+    background-color: #bd2130 !important;
+    border-color: #bd2130 !important;
+    color: white !important;
+}
+
+/* Extra specific selectors for theme compatibility (Lagom, etc) */
+.arkhost-vps-container .card .btn-danger,
+.arkhost-vps-container .card-body .btn-danger,
+.arkhost-vps-container .tab-pane .btn-danger,
+#ArkHostVPS .btn-danger,
+#ArkHostVPS button.btn-danger {
+    background: linear-gradient(135deg, #dc3545 0%, #c82333 100%) !important;
+    background-color: #dc3545 !important;
+    color: #ffffff !important;
+    border-color: #dc3545 !important;
+    opacity: 1 !important;
+}
+.arkhost-vps-container .card .btn-danger:hover,
+.arkhost-vps-container .card-body .btn-danger:hover,
+.arkhost-vps-container .tab-pane .btn-danger:hover,
+#ArkHostVPS .btn-danger:hover,
+#ArkHostVPS button.btn-danger:hover {
+    background: linear-gradient(135deg, #c82333 0%, #bd2130 100%) !important;
+    background-color: #c82333 !important;
+    color: #ffffff !important;
+    border-color: #c82333 !important;
+    opacity: 1 !important;
+}
+
 .arkhost-vps-container .head {
     border-bottom: 2px solid #3c7fb4;
     margin-bottom: 20px;
