@@ -69,7 +69,7 @@ $_ADDONLANG['Overview']['ResourceAllocation'] = 'Resource Allocation';
 $_ADDONLANG['Overview']['QuickActions'] = 'Quick Actions';
 $_ADDONLANG['Overview']['Hostname'] = 'Hostname';
 $_ADDONLANG['Overview']['Status'] = 'Status';
-$_ADDONLANG['Overview']['OS'] = 'Operating System';
+$_ADDONLANG['Overview']['OS'] = 'OS';
 $_ADDONLANG['Overview']['Location'] = 'Location';
 $_ADDONLANG['Overview']['CPU_Cores'] = 'vCPU Cores';
 $_ADDONLANG['Overview']['Memory'] = 'Memory';
@@ -143,7 +143,7 @@ $_ADDONLANG['Settings']['Password']['Submit'] = 'Reset Password';
 ### Reinstall
 $_ADDONLANG['Settings']['Reinstall']['Title'] = 'Reinstall';
 $_ADDONLANG['Settings']['Reinstall']['Description'] = 'Please understand that by reinstalling, all the data will be wiped from the server. This action is irreversible!';
-$_ADDONLANG['Settings']['Reinstall']['OS'] = 'Operating System';
+$_ADDONLANG['Settings']['Reinstall']['OS'] = 'OS';
 $_ADDONLANG['Settings']['Reinstall']['Version'] = 'CHOOSE VERSION';
 $_ADDONLANG['Settings']['Reinstall']['Submit'] = 'Reinstall';
 

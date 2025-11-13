@@ -211,7 +211,7 @@
                                         </tr>
                                         <tr>
                                             <td class="text-muted">{$ADDONLANG.Overview.ServerType}:</td>
-                                            <td><strong>{$serverInfo['server_type']['description']|default:$ADDONLANG.ServerTypes.Standard}</strong></td>
+                                            <td><strong>{$productName}</strong></td>
                                         </tr>
                                     </table>
                                 </div>

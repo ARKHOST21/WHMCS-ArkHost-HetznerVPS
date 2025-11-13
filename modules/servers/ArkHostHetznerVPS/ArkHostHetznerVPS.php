@@ -345,11 +345,11 @@ function ArkHostHetznerVPS_API(array $params) {
             break;
 
         case 'Create backup':
-            // Use snapshots
+            // Create manual backup (still type=backup, but with distinct description)
             $url .= 'servers/' . ArkHostHetznerVPS_GetVPSID($params) . '/actions/create_image';
             $method = 'POST';
             $data = array(
-                'description' => 'Backup created on ' . date('Y-m-d H:i:s'),
+                'description' => 'Manual backup - ' . date('Y-m-d H:i:s'),
                 'type' => 'backup'
             );
             break;
@@ -1540,35 +1540,8 @@ function ArkHostHetznerVPS_ClientAreaAPI(array $params) {
             // Check backup permissions
             $backupActions = array('Create backup', 'Delete backup', 'Restore backup');
             if (in_array($action, $backupActions)) {
-                // Check if backups are enabled either via module settings or configurable options
-                $backupsEnabled = false;
-
-                // Check module product settings
-                if (isset($params['backups']) && $params['backups'] == 'on') {
-                    $backupsEnabled = true;
-                }
-
-                // Check configurable options
-                if (isset($params['configoptions']['Backups']) && $params['configoptions']['Backups'] == 'Yes') {
-                    $backupsEnabled = true;
-                }
-
-                // If not enabled in WHMCS settings, check if backups are actually enabled on Hetzner's side
-                if (!$backupsEnabled) {
-                    try {
-                        $serverInfoParams = $params;
-                        $serverInfoParams['action'] = 'Server Info';
-                        $serverInfoResult = ArkHostHetznerVPS_API($serverInfoParams);
-
-                        // Check if the server has backups enabled (indicated by backup_window being set)
-                        if (isset($serverInfoResult['server']['backup_window']) && $serverInfoResult['server']['backup_window'] !== null) {
-                            $backupsEnabled = true;
-                        }
-                    } catch (Exception $e) {
-                        // If we can't check, assume not enabled
-                        $backupsEnabled = false;
-                    }
-                }
+                // Check if backups are enabled in module settings
+                $backupsEnabled = (ArkHostHetznerVPS_GetOption($params, 'backups') === 'on');
 
                 if (!$backupsEnabled) {
                     return array('jsonResponse' => array(
@@ -1805,7 +1778,8 @@ function ArkHostHetznerVPS_ClientAreaAPI(array $params) {
                             'name' => $image['description'] ?? $image['name'],
                             'created' => $image['created'],
                             'size' => isset($image['image_size']) ? round($image['image_size'], 2) : 0, // Already in GB from API
-                            'type' => $image['type']
+                            'type' => $image['type'],
+                            'status' => $image['status'] ?? 'available' // Include status from Hetzner API
                         );
                         $backupIndex++;
                     }
@@ -2260,17 +2234,32 @@ function ArkHostHetznerVPS_ClientArea(array $params) {
             // Process operating system info for Hetzner
             if (isset($serverInfo['image']) && !empty($operatingSystemsTemp['images'])) {
                 $osId = $serverInfo['image']['name'];
-                $osName = strtolower($serverInfo['image']['description'] ?? $osId);
-                
-                // Find matching OS in available images
+                $imageType = $serverInfo['image']['type'] ?? 'system';
+
+                // If this is a backup or snapshot image, try to get the actual OS info from os_flavor/os_version
+                if (($imageType === 'backup' || $imageType === 'snapshot') && isset($serverInfo['image']['os_flavor'])) {
+                    // Use os_flavor and os_version to construct a meaningful OS name
+                    $osName = strtolower($serverInfo['image']['os_flavor']);
+                    $displayName = ucfirst($serverInfo['image']['os_flavor']);
+                    if (isset($serverInfo['image']['os_version']) && !empty($serverInfo['image']['os_version'])) {
+                        $displayName .= ' ' . $serverInfo['image']['os_version'];
+                    }
+                } else {
+                    $osName = strtolower($serverInfo['image']['description'] ?? $osId);
+                    $displayName = $serverInfo['image']['description'] ?? $osId;
+                }
+
+                // Find matching OS in available images (only for system images)
                 $currentOS = null;
-                foreach ($operatingSystemsTemp['images'] as $os) {
-                    if ($os['name'] === $osId) {
-                        $currentOS = $os;
-                        break;
+                if ($imageType === 'system') {
+                    foreach ($operatingSystemsTemp['images'] as $os) {
+                        if ($os['name'] === $osId) {
+                            $currentOS = $os;
+                            break;
+                        }
                     }
                 }
-                
+
                 if ($currentOS) {
                     $displayName = $currentOS['description'] ?? $currentOS['name'];
                     $osName = strtolower($displayName);
@@ -2308,10 +2297,15 @@ function ArkHostHetznerVPS_ClientArea(array $params) {
                         'image' => isset($operatingSystems[$group]) ? $operatingSystems[$group]['image'] : 'data:image/png;base64,' . base64_encode(file_get_contents($dirOS . (in_array($imageFile, $availableOS) ? $imageFile : 'others') . '.png'))
                     );
                 } else {
-                    // Fallback if OS not found - use image info from server
-                    $displayName = $serverInfo['image']['description'] ?? $osId;
-                    $osName = strtolower($displayName);
-                    
+                    // Fallback if OS not found - already have $displayName and $osName from above
+                    // Just ensure they are set
+                    if (!isset($displayName)) {
+                        $displayName = $serverInfo['image']['description'] ?? $osId;
+                    }
+                    if (!isset($osName)) {
+                        $osName = strtolower($displayName);
+                    }
+
                     // Try to determine OS type from name
                     if (strpos($osName, 'alma') !== false) {
                         $imageFile = 'almalinux';
@@ -2407,9 +2401,21 @@ function ArkHostHetznerVPS_ClientArea(array $params) {
         $serverInfo['bandwidth'] = 20480; // 20TB in GB (20 * 1024)
         $serverInfo['bandwidth_used'] = 0; // Not available via API
         
-        // Add datacenter info
-        $serverInfo['datacenter'] = isset($serverInfo['datacenter']['description']) ? $serverInfo['datacenter']['description'] : 'N/A';
-        $serverInfo['location'] = isset($serverInfo['datacenter']['location']['city']) ? $serverInfo['datacenter']['location']['city'] : 'N/A';
+        // Add datacenter info - format as "City, Country"
+        $city = isset($serverInfo['datacenter']['location']['city']) ? $serverInfo['datacenter']['location']['city'] : '';
+        $country = isset($serverInfo['datacenter']['location']['country']) ? $serverInfo['datacenter']['location']['country'] : '';
+
+        if ($city && $country) {
+            $serverInfo['datacenter'] = $city . ', ' . $country;
+        } elseif ($city) {
+            $serverInfo['datacenter'] = $city;
+        } elseif ($country) {
+            $serverInfo['datacenter'] = $country;
+        } else {
+            $serverInfo['datacenter'] = 'N/A';
+        }
+
+        $serverInfo['location'] = $city ?: 'N/A';
 
         // Get root password with expiration check (72 hours)
         $passwordSetTime = $params['model']->serviceProperties->get('ArkHostHetznerVPS|Password Set Time');
@@ -2431,8 +2437,8 @@ function ArkHostHetznerVPS_ClientArea(array $params) {
             $serverInfo['install_root'] = '';
         }
 
-        // For now, always show backups tab - the API will handle permissions
-        $backupsEnabled = true;
+        // Check if backups are enabled in module settings
+        $backupsEnabled = (ArkHostHetznerVPS_GetOption($params, 'backups') === 'on');
 
         return array(
             'templatefile' => 'template/clientarea_direct',
@@ -2443,6 +2449,7 @@ function ArkHostHetznerVPS_ClientArea(array $params) {
                 'token' => generate_token('plain'),
                 'ADDONLANG' => ArkHostHetznerVPS_Translation(),
                 'backupsEnabled' => $backupsEnabled,
+                'productName' => $params['productname'] ?? $params['configoption1'] ?? 'VPS',
             )
         );
     } catch (Exception $err) {

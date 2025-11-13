@@ -68,6 +68,21 @@
     font-weight: 600;
     transition: all 0.3s ease;
 }
+.arkhost-vps-container .btn-danger {
+    background: linear-gradient(135deg, #dc3545 0%, #c82333 100%) !important;
+    color: white !important;
+    border: none !important;
+    padding: 10px 20px;
+    border-radius: 12px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(220, 53, 69, 0.3);
+}
+.arkhost-vps-container .btn-danger:hover {
+    background: linear-gradient(135deg, #c82333 0%, #bd2130 100%) !important;
+    box-shadow: 0 4px 12px rgba(220, 53, 69, 0.5) !important;
+    transform: translateY(-1px);
+}
 .arkhost-vps-container .head {
     border-bottom: 2px solid #3c7fb4;
     margin-bottom: 20px;

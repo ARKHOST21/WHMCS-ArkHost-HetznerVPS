@@ -521,8 +521,10 @@ function updateBackupTable(data) {
                     backupDate = backupDate.split('T')[0];
                 }
                 
-                // Determine backup type
-                var backupType = backup.type === 'backup' ? lang.backups.automatic : lang.backups.manual;
+                // Determine backup type based on description
+                // Manual backups have descriptions starting with "Manual backup -"
+                var backupName = backup.name || '';
+                var backupType = backupName.indexOf('Manual backup -') === 0 ? lang.backups.manual : lang.backups.automatic;
                 
                 // Format size (already in GB from API)
                 var sizeStr = 'N/A';
@@ -530,22 +532,40 @@ function updateBackupTable(data) {
                     sizeStr = backup.size + ' ' + lang.general.gb;
                 }
                 
-                // Status is always available for Hetzner backups
-                var statusBadge = '<span class="badge badge-success">' + lang.backups.available + '</span>';
+                // Determine status badge based on size first (more reliable than API status)
+                var statusBadge;
+                if (!backup.size || backup.size === 0 || backup.size === '0') {
+                    // Backup is still being created (size not available yet)
+                    statusBadge = '<span class="badge badge-warning">' + lang.backups.creating + '</span>';
+                } else if (backup.status === 'available' || backup.size > 0) {
+                    // Backup is ready (has a size)
+                    statusBadge = '<span class="badge badge-success">' + lang.backups.available + '</span>';
+                } else if (backup.status === 'creating') {
+                    // Status says creating but has size (unlikely but possible)
+                    statusBadge = '<span class="badge badge-warning">' + lang.backups.creating + '</span>';
+                } else {
+                    // Other statuses (error, etc)
+                    statusBadge = '<span class="badge badge-danger">' + (backup.status || lang.backups.error) + '</span>';
+                }
                 
                 // Use backup ID for Hetzner
                 var backupId = backup.id || backup.file;
-                
-                row.innerHTML = 
+
+                // Disable buttons if backup is still being created (size not available)
+                var isCreating = (!backup.size || backup.size === 0 || backup.size === '0');
+                var disabledAttr = isCreating ? ' disabled' : '';
+                var disabledClass = isCreating ? ' disabled' : '';
+
+                row.innerHTML =
                     '<td>' + backupDate + '</td>' +
                     '<td>' + sizeStr + '</td>' +
                     '<td>' + backupType + '</td>' +
                     '<td>' + statusBadge + '</td>' +
                     '<td style="white-space: nowrap;">' +
-                        '<button class="btn btn-xs btn-primary mr-1" style="padding: 4px 8px; font-size: 12px;" onclick="restoreBackup(\'' + backupId + '\'); return false;" title="' + lang.restore + '">' +
+                        '<button class="btn btn-xs btn-primary mr-1' + disabledClass + '" style="padding: 4px 8px; font-size: 12px;" onclick="restoreBackup(\'' + backupId + '\'); return false;" title="' + lang.restore + '"' + disabledAttr + '>' +
                             '<i class="fa fa-undo"></i>' +
                         '</button>' +
-                        '<button class="btn btn-xs btn-danger" style="padding: 4px 8px; font-size: 12px;" onclick="deleteBackup(\'' + backupId + '\'); return false;" title="' + lang.delete + '">' +
+                        '<button class="btn btn-xs btn-danger' + disabledClass + '" style="padding: 4px 8px; font-size: 12px;" onclick="deleteBackup(\'' + backupId + '\'); return false;" title="' + lang.delete + '"' + disabledAttr + '>' +
                             '<i class="fa fa-trash"></i>' +
                         '</button>' +
                     '</td>';
